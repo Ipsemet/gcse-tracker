@@ -1,0 +1,57 @@
+{
+  "builtAt": "2026-10-21T18:15:56.707Z",
+  "subjects": [
+    {
+      "id": "rs",
+      "name": "Religious Studies",
+      "shortName": "RS",
+      "board": "AQA",
+      "specCode": "8061D",
+      "examSeries": "Summer 2027",
+      "examDate": null,
+      "confidence": "confirmed",
+      "confidenceNote": "Board, code and religions confirmed. Open question: the Year 11 RS scheme of work covers the death penalty, abortion and euthanasia, which are not on the 8061 short course. Almost certainly non-examined Year 11 RS taught after the exam — worth one email to the school to be sure.",
+      "colour": "#b476ff",
+      "icon": "☪️",
+      "priority": 1,
+      "specPointCount": 43,
+      "coverage": {
+        "specPoints": 43,
+        "withNotes": 43,
+        "withFlashcards": 43,
+        "withQuestions": 43,
+        "topics": 8,
+        "topicsWithNotes": 8,
+        "flashcards": 140,
+        "questions": 61,
+        "totalMarks": 267
+      }
+    },
+    {
+      "id": "cs",
+      "name": "Computer Science",
+      "shortName": "Comp Sci",
+      "board": "OCR",
+      "specCode": "J277",
+      "examSeries": "Summer 2028",
+      "examDate": null,
+      "confidence": "provisional",
+      "confidenceNote": "Board and spec code confirmed from the school exam-boards PDF (8 Sept 2026). Unit/topic structure and statement wording follow the published J277 specification but have not been checked line-by-line against the official PDF.",
+      "colour": "#4f8cff",
+      "icon": "💻",
+      "priority": 2,
+      "specPointCount": 106,
+      "coverage": {
+        "specPoints": 106,
+        "withNotes": 22,
+        "withFlashcards": 106,
+        "withQuestions": 71,
+        "topics": 26,
+        "topicsWithNotes": 5,
+        "flashcards": 207,
+        "questions": 99,
+        "totalMarks": 254
+      }
+    }
+  ]
+}
