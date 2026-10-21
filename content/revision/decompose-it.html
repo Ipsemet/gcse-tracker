@@ -1,0 +1,750 @@
+<title>Decompose It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+:root{
+  --paper:#EFF1F6; --sheet:#FFFFFF; --sunk:#E4E7EF;
+  --ink:#161A2B; --ink-2:#4A5169; --ink-3:#7A819A;
+  --rule:#CDD3E0; --rule-soft:#E1E5EE;
+  --copper:#B45318; --copper-soft:#F3E2D5;
+  --slate:#33507A; --slate-soft:#DFE7F3;
+  --good:#1F6B4A; --good-soft:#DCEDE3;
+  --miss:#A32D3C; --miss-soft:#F6DFE2;
+  --shadow:0 1px 2px rgba(22,26,43,.07), 0 8px 24px -12px rgba(22,26,43,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1220; --sheet:#171B2C; --sunk:#10131F;
+    --ink:#E9EBF3; --ink-2:#A8AFC6; --ink-3:#767D96;
+    --rule:#2C3248; --rule-soft:#232839;
+    --copper:#E39257; --copper-soft:#3A2415;
+    --slate:#8FB2E0; --slate-soft:#1C2740;
+    --good:#5FC894; --good-soft:#17301F;
+    --miss:#EE8C99; --miss-soft:#33161C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1220; --sheet:#171B2C; --sunk:#10131F;
+  --ink:#E9EBF3; --ink-2:#A8AFC6; --ink-3:#767D96;
+  --rule:#2C3248; --rule-soft:#232839;
+  --copper:#E39257; --copper-soft:#3A2415;
+  --slate:#8FB2E0; --slate-soft:#1C2740;
+  --good:#5FC894; --good-soft:#17301F;
+  --miss:#EE8C99; --miss-soft:#33161C;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"Archivo","Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Archivo",sans-serif;text-wrap:balance;margin:0}
+h1{font-weight:800;font-size:clamp(34px,6vw,54px);line-height:1.02;letter-spacing:-.025em}
+h2{font-weight:800;font-size:clamp(23px,3.4vw,30px);letter-spacing:-.018em;line-height:1.12}
+h3{font-weight:600;font-size:17px;letter-spacing:-.008em}
+p{margin:0}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--copper)}
+.lede{color:var(--ink-2);font-size:17px;max-width:63ch}
+.dim{color:var(--ink-2)}
+.tiny{font-size:13.5px;line-height:1.5}
+.mono{font-family:"JetBrains Mono",monospace}
+
+.masthead{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:14px}
+.mast-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px}
+.mast-meta b{color:var(--ink-2);font-weight:700}
+.masthead h1{margin-bottom:14px}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));border:1px solid var(--rule);border-radius:3px;background:var(--sheet);margin-top:28px;overflow:hidden}
+.plan-step{padding:16px 18px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:4px}
+.plan-step:last-child{border-right:0}
+.plan-step .n{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--copper);letter-spacing:.1em}
+.plan-step .t{font-weight:600;font-size:15px}
+.plan-step .d{font-size:13px;color:var(--ink-3);line-height:1.45}
+
+section{margin-top:56px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.sec-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.bank{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.line{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.6fr);gap:0 28px;padding:15px 0;border-bottom:1px solid var(--rule-soft);align-items:start}
+.line .ask{font-weight:600;font-size:15px;line-height:1.4}
+.line .ask .tar{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--copper);font-weight:700;margin-left:7px}
+.line .say{color:var(--ink-2);font-size:15px;line-height:1.55}
+.line .say b{color:var(--ink);font-weight:600}
+.line .say em{font-style:normal;color:var(--copper);font-weight:600}
+@media (max-width:680px){ .line{grid-template-columns:1fr;gap:5px} }
+
+button{font-family:inherit}
+.btn{font-size:14px;font-weight:600;padding:9px 16px;border-radius:2px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--paper);transition:.15s}
+.btn:hover{opacity:.86}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--ink-2);color:var(--ink);opacity:1}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.reveal{font-family:"JetBrains Mono",monospace;font-size:11.5px;font-weight:700;letter-spacing:.06em;border:1px solid var(--rule);background:transparent;color:var(--ink-2);padding:6px 12px;border-radius:2px;cursor:pointer;transition:.15s}
+.reveal:hover{border-color:var(--slate);color:var(--slate)}
+.btn:focus-visible,.reveal:focus-visible,textarea:focus-visible,input:focus-visible,.node-label:focus-visible,.opt:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+
+/* ---------- abstraction gallery ---------- */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.gcard{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px}
+.gcard h3{font-size:16px}
+.gcard .thing{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--copper);font-weight:700}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.field input{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--rule);padding:5px 2px}
+.field input:focus{outline:none;border-bottom-color:var(--copper)}
+.model{border-left:3px solid var(--good);background:var(--good-soft);padding:10px 12px;border-radius:2px;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.model b{color:var(--good);font-weight:600}
+
+/* ---------- structure diagram builder ---------- */
+.builder{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
+.builder-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--rule);background:var(--sunk)}
+.builder-top .hint{font-size:12.5px;color:var(--ink-3);margin-left:auto}
+.canvas{padding:26px 18px;overflow-x:auto}
+.tree ul{display:flex;justify-content:center;position:relative;padding:22px 0 0;margin:0;list-style:none}
+.tree li{list-style:none;position:relative;padding:22px 7px 0;text-align:center}
+.tree li::before,.tree li::after{content:"";position:absolute;top:0;right:50%;width:50%;height:22px;border-top:1.5px solid var(--rule)}
+.tree li::after{right:auto;left:50%;border-left:1.5px solid var(--rule)}
+.tree li:only-child::after,.tree li:only-child::before{display:none}
+.tree li:only-child{padding-top:0}
+.tree li:first-child::before,.tree li:last-child::after{border:0}
+.tree li:last-child::before{border-right:1.5px solid var(--rule)}
+.tree>ul{padding-top:0}
+.tree ul ul::before{content:"";position:absolute;top:0;left:50%;border-left:1.5px solid var(--rule);height:22px}
+.node{display:inline-flex;flex-direction:column;gap:5px;align-items:center;min-width:132px;max-width:170px;padding:9px 11px;border:1.5px solid var(--rule);border-radius:4px;background:var(--sunk);position:relative}
+.node.root{border-color:var(--slate);background:var(--slate-soft);min-width:190px}
+.node.warn{border-color:var(--miss);background:var(--miss-soft)}
+.node-label{font-size:13px;font-weight:600;line-height:1.3;width:100%;border:0;background:transparent;color:var(--ink);text-align:center;font-family:inherit;resize:none;overflow:hidden}
+.node.root .node-label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.node-label:focus{outline:none}
+.node-tools{display:flex;gap:4px;opacity:.55;transition:.15s}
+.node:hover .node-tools,.node:focus-within .node-tools{opacity:1}
+.node-tools button{width:22px;height:22px;line-height:1;font-size:13px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink-2);border-radius:2px;cursor:pointer;padding:0}
+.node-tools button:hover{border-color:var(--copper);color:var(--copper)}
+.checks{border-top:1px solid var(--rule);background:var(--sunk);padding:14px 16px;display:flex;flex-direction:column;gap:7px}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:14px;line-height:1.45}
+.check .mk{font-family:"JetBrains Mono",monospace;font-weight:700;flex-shrink:0}
+.check.ok .mk{color:var(--good)} .check.ok{color:var(--ink-2)}
+.check.no .mk{color:var(--miss)} .check.no{color:var(--miss)}
+
+/* ---------- knowledge organiser ---------- */
+.organiser{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
+.org-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule);background:var(--sunk)}
+.org-score{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.org-row{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:0 20px;padding:14px 18px;border-bottom:1px solid var(--rule-soft);align-items:start}
+.org-row:last-child{border-bottom:0}
+.org-row .term{font-weight:600;font-size:14.5px;line-height:1.35}
+.org-row textarea{width:100%;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2px;padding:7px 9px;resize:vertical;min-height:52px}
+.org-row textarea:focus{outline:none;border-color:var(--copper)}
+.org-answer{margin-top:8px;border-left:3px solid var(--slate);background:var(--sunk);padding:9px 12px;border-radius:2px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.org-answer .lbl{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:700;display:block;margin-bottom:4px}
+.org-mark{display:flex;gap:7px;margin-top:8px}
+.org-mark button{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;padding:5px 11px;border:1px solid var(--rule);background:transparent;color:var(--ink-3);border-radius:2px;cursor:pointer}
+.org-mark button.got[aria-pressed="true"]{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.org-mark button.gap[aria-pressed="true"]{border-color:var(--miss);background:var(--miss-soft);color:var(--miss)}
+@media (max-width:640px){ .org-row{grid-template-columns:1fr;gap:7px} }
+
+/* ---------- exam paper ---------- */
+.paper{background:var(--sheet);border:1px solid var(--rule);border-radius:3px;box-shadow:var(--shadow);overflow:hidden}
+.paper-head{padding:20px 26px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.paper-head .t{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:20px;letter-spacing:-.015em}
+.paper-head .s{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin-top:2px}
+.timer{font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.timer.over{color:var(--miss)}
+.paper-body{padding:8px 26px 26px}
+.qblock{padding:20px 0;border-bottom:1px solid var(--rule-soft)}
+.qblock:last-of-type{border-bottom:0}
+.qhead{display:flex;gap:12px;align-items:baseline}
+.qnum{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:14px;color:var(--ink-3);min-width:22px}
+.qtext{flex:1;font-size:16px;line-height:1.5}
+.qtext .ctx{display:block;color:var(--ink-2);font-size:14.5px;margin-bottom:7px;border-left:2px solid var(--rule);padding-left:11px}
+.tariff{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.qbody{margin-left:34px;margin-top:12px}
+.qbody textarea{width:100%;font-family:"Archivo",sans-serif;font-size:15px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--rule);padding:6px 2px;resize:vertical;min-height:64px;background-image:repeating-linear-gradient(transparent,transparent 25px,var(--rule-soft) 25px,var(--rule-soft) 26px);line-height:26px}
+.qbody textarea:focus{outline:none;border-bottom-color:var(--copper)}
+.mcq{display:flex;flex-direction:column;gap:7px}
+.mcq label{display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border:1px solid transparent;border-radius:2px;cursor:pointer;font-size:15px;line-height:1.4}
+.mcq label:hover{background:var(--sunk)}
+.mcq input{margin-top:4px;accent-color:var(--copper);flex-shrink:0}
+.mcq label.right{border-color:var(--good);background:var(--good-soft)}
+.mcq label.wrong{border-color:var(--miss);background:var(--miss-soft)}
+.ms{margin-top:14px;border:1px solid var(--rule);border-left:3px solid var(--slate);border-radius:2px;padding:14px 16px;background:var(--sunk)}
+.ms-label{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--slate);margin-bottom:10px}
+.ms ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.ms li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.45}
+.ms li input{margin-top:4px;accent-color:var(--good);flex-shrink:0;width:15px;height:15px}
+.ms li label{cursor:pointer;color:var(--ink-2)}
+.ms .note{margin-top:11px;padding-top:11px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink-3);line-height:1.5}
+.ms .note b{color:var(--copper);font-weight:600}
+.qscore{display:flex;align-items:center;gap:10px;margin-top:12px;font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--ink-3)}
+.result{margin-top:24px;border:1px solid var(--rule);border-radius:3px;background:var(--sheet);box-shadow:var(--shadow);padding:24px 26px}
+.result-top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.bigscore{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:56px;line-height:1;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.bigscore span{font-size:24px;color:var(--ink-3)}
+.pcent{font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:700;color:var(--copper)}
+.sects{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--rule-soft)}
+.sects div{display:flex;flex-direction:column;gap:2px}
+.sects .k{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.sects .v{font-family:"JetBrains Mono",monospace;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+.redlist{margin-top:18px;padding-top:16px;border-top:1px solid var(--rule-soft)}
+.redlist h3{margin-bottom:9px}
+.redlist ul{margin:0;padding-left:19px;color:var(--ink-2);font-size:14.5px;line-height:1.6}
+.redlist li::marker{color:var(--miss)}
+.redlist .clear{color:var(--good);font-size:14.5px}
+
+footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink-3);line-height:1.6;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer b{color:var(--ink-2);font-weight:600}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="mast-meta">
+      <span>OCR J277 &middot; <b>Paper 2</b></span>
+      <span>Spec points <b>2.1.1</b> &amp; <b>2.1.2b</b></span>
+      <span>Year 10 &middot; Autumn 1 &middot; Week 3</span>
+      <span>The double</span>
+    </div>
+    <h1>Decompose It</h1>
+    <p class="lede">Abstraction, decomposition and algorithmic thinking are three ideas that sound obvious and are marked on whether you can actually use them. So this page makes you use them: fill in the gallery, build a structure diagram that obeys the three rules, write the organiser out from memory, then sit the 21-mark paper.</p>
+    <div class="plan">
+      <div class="plan-step"><span class="n">01</span><span class="t">The three sentences</span><span class="d">What each principle is, in the wording that scores.</span></div>
+      <div class="plan-step"><span class="n">02</span><span class="t">Abstraction gallery</span><span class="d">Four everyday abstractions. What is kept, what goes, what for.</span></div>
+      <div class="plan-step"><span class="n">03</span><span class="t">Build the diagram</span><span class="d">A structure diagram that checks its own rules as you draw it.</span></div>
+      <div class="plan-step"><span class="n">04</span><span class="t">Cover and write</span><span class="d">The knowledge organiser, from memory, marked honestly.</span></div>
+      <div class="plan-step"><span class="n">05</span><span class="t">Sit the paper</span><span class="d">21 marks, 25 minutes, book shut.</span></div>
+    </div>
+  </header>
+
+  <!-- 1. SENTENCES -->
+  <section>
+    <div class="sec-head">
+      <div class="row"><h2>The three sentences</h2><span class="eyebrow">Step 01 &middot; 4 min</span></div>
+      <p class="lede">Learn these as sentences. Then never write only these &mdash; every mark above the definition comes from applying them to the problem in front of you.</p>
+    </div>
+    <div class="bank">
+      <div class="line">
+        <div class="ask">Define abstraction.<span class="tar">[2]</span></div>
+        <div class="say">Removing or hiding <b>detail that is not needed</b>, so that only what matters <b>for a particular purpose</b> remains. Both halves score. Without the purpose, &ldquo;unnecessary&rdquo; means nothing &mdash; the Tube map is brilliant for choosing a train and <em>useless</em> for judging a walk.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Define decomposition.<span class="tar">[1]</span></div>
+        <div class="say">Breaking a large problem into <b>smaller sub-problems</b>, each of which can be solved on its own.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Two benefits of decomposing.<span class="tar">[2]</span></div>
+        <div class="say">Each part is <b>easier to solve and test on its own</b>; <b>different people can work on different parts</b> at once; a solved part can be <b>reused</b>. Two <em>different</em> benefits &mdash; &ldquo;easier&rdquo; twice is one mark.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Define algorithmic thinking.<span class="tar">[1]</span></div>
+        <div class="say">Working out the <b>precise, ordered steps</b> that solve the problem &mdash; and would solve it again with different inputs. The test: could someone follow it <em>without making a judgement of their own?</em></div>
+      </div>
+      <div class="line">
+        <div class="ask">What does a structure diagram show?<span class="tar">[1]</span></div>
+        <div class="say"><b>How a problem breaks down into sub-problems.</b> Not the order things happen in &mdash; that is a flowchart.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Abstraction or decomposition?<span class="tar">&mdash;</span></div>
+        <div class="say">Decomposition breaks a problem <b>up</b>. Abstraction strips detail <b>out</b>. One is about size, the other about detail.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. GALLERY -->
+  <section>
+    <div class="sec-head">
+      <div class="row"><h2>The abstraction gallery</h2><span class="eyebrow">Step 02 &middot; 8 min</span></div>
+      <p class="lede">Four things that are all abstractions. Fill in each column before you reveal anything &mdash; the point is to produce the answer, not to recognise it.</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <!-- 3. BUILDER -->
+  <section>
+    <div class="sec-head">
+      <div class="row"><h2>Build a structure diagram</h2><span class="eyebrow">Step 03 &middot; 10 min</span></div>
+      <p class="lede">Decompose the self-service checkout. Click a box to rename it, <strong>+</strong> to add a sub-problem beneath it, <strong>&times;</strong> to remove one. The checks underneath are the three things the mark scheme looks for &mdash; watch them as you go. Notice you cannot draw an arrow: that is deliberate.</p>
+    </div>
+    <div class="builder">
+      <div class="builder-top">
+        <button class="reveal" id="load-vending">Load the vending machine instead</button>
+        <button class="reveal" id="reset-tree">Start again</button>
+        <span class="hint" id="tree-count"></span>
+      </div>
+      <div class="canvas"><div class="tree" id="tree"></div></div>
+      <div class="checks" id="checks"></div>
+    </div>
+  </section>
+
+  <!-- 4. ORGANISER -->
+  <section>
+    <div class="sec-head">
+      <div class="row"><h2>Cover and write</h2><span class="eyebrow">Step 04 &middot; 10 min</span></div>
+      <p class="lede">This is step 2 of the four-step method, and it is the uncomfortable one. Write each definition from memory, then check yourself and mark it honestly. The gap you find is the thing you did not know &mdash; not the thing you got wrong.</p>
+    </div>
+    <div class="organiser">
+      <div class="org-top">
+        <span class="eyebrow">Knowledge organiser &middot; 2.1.1 Computational thinking</span>
+        <span class="org-score" id="org-score">Not started</span>
+      </div>
+      <div id="organiser"></div>
+    </div>
+  </section>
+
+  <!-- 5. PAPER -->
+  <section>
+    <div class="sec-head">
+      <div class="row"><h2>The paper</h2><span class="eyebrow">Step 05 &middot; 25 min</span></div>
+      <p class="lede">Twenty-one marks, in OCR&rsquo;s tariffs and command words. Write the whole paper before you reveal a single mark scheme.</p>
+    </div>
+    <div class="paper">
+      <div class="paper-head">
+        <div>
+          <div class="t">Computational thinking, algorithms and programming &mdash; 2.1.1</div>
+          <div class="s">Section A 3 &middot; Section B 9 &middot; Section C 9 &middot; Total 21 marks</div>
+        </div>
+        <div style="text-align:right">
+          <div class="timer" id="timer">25:00</div>
+          <button class="reveal" id="timer-btn" style="margin-top:4px">Start</button>
+        </div>
+      </div>
+      <div class="paper-body" id="paper-body"></div>
+    </div>
+    <div class="result" id="result" hidden>
+      <div class="result-top">
+        <div class="bigscore" id="total">0<span>/21</span></div>
+        <div><div class="pcent" id="pcent">0%</div><div class="tiny dim" id="verdict"></div></div>
+      </div>
+      <div class="sects">
+        <div><span class="k">Section A</span><span class="v" id="sa">0/3</span></div>
+        <div><span class="k">Section B</span><span class="v" id="sb">0/9</span></div>
+        <div><span class="k">Section C</span><span class="v" id="sc">0/9</span></div>
+      </div>
+      <div class="redlist">
+        <h3>For the Red List at the back of your tracker</h3>
+        <div id="redlist"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Where this fits.</b> This is Week 3 of Autumn 1 &mdash; the double. Week 1&rsquo;s double was the CPU, and its companion page is <em>Be The CPU</em>. Whatever you drop here goes on the Red List, then: watch, cover and write, do the PMT questions for 2.1, and mark them.</p>
+    <p class="mono" style="font-size:11.5px;letter-spacing:.08em">OCR J277 &middot; 2.1.1 &amp; 2.1.2b<br>Authored practice, not past-paper material</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $ = function(id){ return document.getElementById(id); };
+
+/* ===================== 2. ABSTRACTION GALLERY ===================== */
+var GALLERY = [
+  { thing:"A London Tube map", kept:"The stations, the lines, the order of stops and where you can change",
+    removed:"Real distances, real directions, and every street above ground",
+    forWhat:"Working out which train to take and where to change",
+    twist:"Useless for \u201chow far is it to walk?\u201d \u2014 you would have to add real distances and the streets back in." },
+  { thing:"A weather forecast icon", kept:"Roughly what the sky is going to do",
+    removed:"The temperature, the wind, the exact timing, the probability",
+    forWhat:"Deciding at a glance whether to take a coat",
+    twist:"Useless for a farmer deciding when to harvest, who needs exact timings and rainfall amounts." },
+  { thing:"A 4\u20134\u20132 formation diagram", kept:"Where each player starts and roughly who covers whom",
+    removed:"The pitch, the ball, the opposition, and everything that happens after kick-off",
+    forWhat:"Explaining the shape a team plays in",
+    twist:"Useless for analysing an actual goal, which needs the ball, the movement and the timing." },
+  { thing:"A school timetable", kept:"Which subject and which room, by period and day",
+    removed:"What is actually taught, who else is in the class, the walk between rooms",
+    forWhat:"Getting to the right room at the right time",
+    twist:"Useless for planning revision, which needs what was covered rather than where you sat." }
+];
+
+$("gallery").innerHTML = GALLERY.map(function(g,i){
+  return '<div class="gcard">' +
+    '<span class="thing">Abstraction ' + (i+1) + '</span>' +
+    '<h3>' + g.thing + '</h3>' +
+    '<div class="field"><label for="k'+i+'">What is kept</label><input id="k'+i+'" data-g="'+i+'" autocomplete="off"></div>' +
+    '<div class="field"><label for="r'+i+'">What is removed</label><input id="r'+i+'" data-g="'+i+'" autocomplete="off"></div>' +
+    '<div class="field"><label for="f'+i+'">What is it for</label><input id="f'+i+'" data-g="'+i+'" autocomplete="off"></div>' +
+    '<button class="reveal" data-gshow="'+i+'" style="align-self:flex-start">Compare with a model answer</button>' +
+    '<div class="model" data-gmodel="'+i+'" hidden>' +
+      '<b>Kept.</b> ' + g.kept + '<br><b>Removed.</b> ' + g.removed + '<br><b>For.</b> ' + g.forWhat +
+      '<br><br><b>And the point:</b> ' + g.twist + '</div>' +
+  '</div>';
+}).join("");
+
+$("gallery").addEventListener("click", function(ev){
+  var b = ev.target.closest("[data-gshow]");
+  if (!b) return;
+  var m = $("gallery").querySelector('[data-gmodel="' + b.dataset.gshow + '"]');
+  m.hidden = !m.hidden;
+  b.textContent = m.hidden ? "Compare with a model answer" : "Hide the model answer";
+});
+
+/* ===================== 3. STRUCTURE DIAGRAM BUILDER ===================== */
+var uid = 0;
+function n(label, kids){ return { id: ++uid, label: label, kids: kids || [] }; }
+
+var STARTERS = {
+  checkout: function(){ return n("SELF-SERVICE CHECKOUT", [ n("Scan an item"), n(""), n(""), n("") ]); },
+  vending:  function(){ return n("VENDING MACHINE", [ n("Take payment"), n(""), n(""), n("Give change", [ n(""), n("") ]) ]); }
+};
+var tree = STARTERS.checkout();
+
+function renderNode(node, isRoot){
+  var warn = / and /i.test(node.label) || /,/.test(node.label);
+  var li = document.createElement("li");
+  var box = document.createElement("div");
+  box.className = "node" + (isRoot ? " root" : "") + (warn ? " warn" : "");
+
+  var ta = document.createElement("textarea");
+  ta.className = "node-label";
+  ta.rows = 2;
+  ta.value = node.label;
+  ta.placeholder = isRoot ? "The whole problem" : "one job only\u2026";
+  ta.setAttribute("aria-label", isRoot ? "The whole problem" : "Sub-problem");
+  ta.addEventListener("input", function(){ node.label = ta.value; draw(true); });
+  box.appendChild(ta);
+
+  var tools = document.createElement("div");
+  tools.className = "node-tools";
+  var add = document.createElement("button");
+  add.type = "button"; add.textContent = "+";
+  add.title = "Add a sub-problem beneath this box";
+  add.setAttribute("aria-label", "Add a sub-problem");
+  add.addEventListener("click", function(){ node.kids.push(n("")); draw(); });
+  tools.appendChild(add);
+  if (!isRoot){
+    var del = document.createElement("button");
+    del.type = "button"; del.textContent = "\u00d7";
+    del.title = "Remove this box and anything under it";
+    del.setAttribute("aria-label", "Remove this box");
+    del.addEventListener("click", function(){ remove(tree, node.id); draw(); });
+    tools.appendChild(del);
+  }
+  box.appendChild(tools);
+  li.appendChild(box);
+
+  if (node.kids.length){
+    var ul = document.createElement("ul");
+    node.kids.forEach(function(k){ ul.appendChild(renderNode(k, false)); });
+    li.appendChild(ul);
+  }
+  return li;
+}
+
+function remove(parent, id){
+  for (var i = 0; i < parent.kids.length; i++){
+    if (parent.kids[i].id === id){ parent.kids.splice(i,1); return true; }
+    if (remove(parent.kids[i], id)) return true;
+  }
+  return false;
+}
+
+function walk(node, depth, fn){ fn(node, depth); node.kids.forEach(function(k){ walk(k, depth+1, fn); }); }
+
+function draw(keepFocus){
+  var active = document.activeElement;
+  var caret = active && active.classList && active.classList.contains("node-label") ? active.selectionStart : null;
+  var activeVal = caret !== null ? active.value : null;
+
+  var host = $("tree");
+  host.innerHTML = "";
+  var ul = document.createElement("ul");
+  ul.appendChild(renderNode(tree, true));
+  host.appendChild(ul);
+
+  if (keepFocus && activeVal !== null){
+    var again = Array.prototype.filter.call(host.querySelectorAll(".node-label"), function(t){ return t.value === activeVal; })[0];
+    if (again){ again.focus(); try { again.setSelectionRange(caret, caret); } catch(e){} }
+  }
+
+  var boxes = 0, filled = 0, depth = 1, twoJobs = [];
+  walk(tree, 1, function(node, d){
+    boxes++;
+    if (node.label.trim()) filled++;
+    if (d > depth) depth = d;
+    if (/ and /i.test(node.label) || /,/.test(node.label)) twoJobs.push(node.label.trim());
+  });
+
+  $("tree-count").textContent = boxes + " boxes \u00b7 " + depth + " level" + (depth === 1 ? "" : "s");
+
+  var checks = [
+    { ok: twoJobs.length === 0,
+      yes: "Every box does exactly one job.",
+      no: "A box is doing more than one job: \u201c" + (twoJobs[0] || "") + "\u201d. If the label needs \u201cand\u201d, split it into two boxes." },
+    { ok: depth >= 3,
+      yes: "Three levels \u2014 one sub-problem has been broken down further.",
+      no: "Only " + depth + " level" + (depth === 1 ? "" : "s") + " so far. Pick your hardest sub-problem and press + on it to break it down again." },
+    { ok: filled === boxes,
+      yes: "Every box is labelled.",
+      no: (boxes - filled) + " box" + (boxes - filled === 1 ? " is" : "es are") + " still empty." },
+    { ok: true,
+      yes: "No arrows \u2014 and there is no way to add one. A structure diagram shows structure, not order.",
+      no: "" }
+  ];
+  $("checks").innerHTML = checks.map(function(c){
+    return '<div class="check ' + (c.ok ? "ok" : "no") + '"><span class="mk">' + (c.ok ? "\u2713" : "\u2717") +
+      '</span><span>' + (c.ok ? c.yes : c.no) + '</span></div>';
+  }).join("");
+}
+
+$("load-vending").addEventListener("click", function(){ tree = STARTERS.vending(); draw(); });
+$("reset-tree").addEventListener("click", function(){ tree = STARTERS.checkout(); draw(); });
+draw();
+
+/* ===================== 4. KNOWLEDGE ORGANISER ===================== */
+var ORG = [
+  { term:"Abstraction", def:"Removing detail that is not needed FOR A PURPOSE, so only what matters remains. Always name the purpose." },
+  { term:"Decomposition", def:"Breaking a large problem into smaller sub-problems that can each be solved separately." },
+  { term:"Benefits of decomposition", def:"Easier to solve \u00b7 can be shared between people \u00b7 each part testable on its own \u00b7 parts can be reused." },
+  { term:"Algorithmic thinking", def:"Working out the precise, ordered steps that solve the problem every time, with no judgement needed from whoever follows them." },
+  { term:"Structure diagram", def:"The problem at the top, sub-problems branching below it. One job per box, every box joined to its parent, and no arrows." },
+  { term:"Algorithm", def:"A set of precise, ordered steps that solves a problem or performs a task." },
+  { term:"Structure diagram vs flowchart", def:"A structure diagram shows what a problem is made of. A flowchart shows the order steps happen in, with arrows and standard symbols." }
+];
+
+var ORG_KEY = "decompose-it-organiser-v1";
+var orgMarks = {};
+try { orgMarks = JSON.parse(localStorage.getItem(ORG_KEY) || "{}"); } catch(e){ orgMarks = {}; }
+
+$("organiser").innerHTML = ORG.map(function(o,i){
+  return '<div class="org-row">' +
+    '<div class="term">' + o.term + '</div>' +
+    '<div>' +
+      '<textarea data-org="'+i+'" rows="2" placeholder="Write it from memory\u2026" aria-label="Definition of ' + o.term + '"></textarea>' +
+      '<button class="reveal" data-oshow="'+i+'" style="margin-top:8px">Check myself</button>' +
+      '<div class="org-answer" data-oans="'+i+'" hidden><span class="lbl">What it should say</span>' + o.def +
+        '<div class="org-mark">' +
+          '<button class="got" data-omark="'+i+'" data-v="1" aria-pressed="false">I had that</button>' +
+          '<button class="gap" data-omark="'+i+'" data-v="0" aria-pressed="false">That is a gap</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}).join("");
+
+function orgScore(){
+  var got = 0, done = 0;
+  ORG.forEach(function(o,i){
+    if (orgMarks[i] === 1){ got++; done++; }
+    else if (orgMarks[i] === 0){ done++; }
+  });
+  $("org-score").textContent = done === 0 ? "Not started"
+    : got + " of " + done + " checked" + (done < ORG.length ? " \u00b7 " + (ORG.length - done) + " to go" : "");
+  $("org-score").style.color = done === ORG.length && got === ORG.length ? "var(--good)" : "var(--ink)";
+}
+
+$("organiser").addEventListener("click", function(ev){
+  var show = ev.target.closest("[data-oshow]");
+  if (show){
+    var a = $("organiser").querySelector('[data-oans="' + show.dataset.oshow + '"]');
+    a.hidden = !a.hidden;
+    show.textContent = a.hidden ? "Check myself" : "Hide";
+    return;
+  }
+  var mk = ev.target.closest("[data-omark]");
+  if (mk){
+    var i = mk.dataset.omark, v = Number(mk.dataset.v);
+    orgMarks[i] = orgMarks[i] === v ? undefined : v;
+    Array.prototype.forEach.call($("organiser").querySelectorAll('[data-omark="' + i + '"]'), function(b){
+      b.setAttribute("aria-pressed", orgMarks[i] === Number(b.dataset.v) ? "true" : "false");
+    });
+    try { localStorage.setItem(ORG_KEY, JSON.stringify(orgMarks)); } catch(e){}
+    orgScore();
+  }
+});
+Object.keys(orgMarks).forEach(function(i){
+  Array.prototype.forEach.call($("organiser").querySelectorAll('[data-omark="' + i + '"]'), function(b){
+    b.setAttribute("aria-pressed", orgMarks[i] === Number(b.dataset.v) ? "true" : "false");
+  });
+});
+orgScore();
+
+/* ===================== 5. THE PAPER ===================== */
+var PAPER = [
+  { n:"1", sec:"A", marks:1, type:"mcq", text:"Removing unnecessary detail from a problem is known as:",
+    options:["Decomposition","Abstraction","Iteration","Validation"], answer:1,
+    note:"Decomposition breaks a problem up; it removes nothing." },
+  { n:"2", sec:"A", marks:1, type:"mcq", text:"Breaking a large problem down into smaller sub-problems is known as:",
+    options:["Abstraction","Refinement","Decomposition","Compression"], answer:2,
+    note:"Refinement is improving an algorithm after testing it." },
+  { n:"3", sec:"A", marks:1, type:"mcq", text:"A structure diagram shows:",
+    options:["the order in which steps are carried out","how a problem breaks down into sub-problems","how data flows around a network","the truth values of a logic circuit"], answer:1,
+    note:"The first option is a flowchart. That confusion costs whole answers." },
+
+  { n:"4", sec:"B", marks:2, type:"written", text:"Define the term abstraction.",
+    ms:["Removing or hiding detail that is not needed","So that only what matters for a particular purpose remains"],
+    note:"The second mark is the one people miss. Name the purpose, or \u201cunnecessary\u201d means nothing." },
+  { n:"5", sec:"B", marks:2, type:"written", text:"Give two benefits of decomposing a problem before writing a program.",
+    ms:["Each sub-problem is smaller and easier to understand, solve and test on its own","Different people can work on different sub-problems at the same time, or a solved sub-problem can be reused"],
+    note:"Two genuinely different benefits. \u201cIt is easier\u201d and \u201cit is simpler\u201d is one point written twice." },
+  { n:"6", sec:"B", marks:2, type:"written",
+    context:"A company is developing a mobile app that shows live bus arrival times at a bus stop chosen by the user.",
+    text:"Give two examples of detail about the real bus network that the developers would abstract away.",
+    ms:["One valid detail, e.g. the make, model or colour of the buses, or the drivers","A second valid detail, e.g. the exact roads taken between stops, or the fare structure"],
+    note:"Test each one against the purpose: would knowing it change the arrival time on screen?" },
+  { n:"7", sec:"B", marks:3, type:"written",
+    context:"The same company is deciding what to leave out of its bus arrival app.",
+    text:"Explain why the developers must consider the purpose of the app when deciding what to abstract away.",
+    ms:["Detail is only unnecessary in relation to what the app is for","Removing detail the purpose needs would break the app \u2014 remove the stop locations and the arrival times mean nothing","Keeping detail the purpose does not need makes the app slower, more complex or harder to use"],
+    note:"A strong answer argues both directions: remove too much and it breaks, keep too much and it clutters." },
+
+  { n:"8", sec:"C", marks:3, type:"written",
+    context:"A structure diagram has been started for a self-service checkout. The top box reads SELF-SERVICE CHECKOUT and one sub-problem, \u201cScan an item\u201d, is filled in. Three boxes are empty.",
+    text:"Write three further sub-problems that would correctly complete the diagram.",
+    ms:["A valid sub-problem doing exactly one job, e.g. \u201cTake payment\u201d","A second valid sub-problem, e.g. \u201cApply discounts and offers\u201d","A third valid sub-problem, e.g. \u201cPrint a receipt\u201d"],
+    note:"Count the empty boxes \u2014 that is how many they want. No \u201cand\u201d in a label, and no arrows anywhere." },
+  { n:"9", sec:"C", marks:6, type:"written",
+    context:"A student is writing a program to play a simple card game against the computer.",
+    text:"Explain how the student would use abstraction, decomposition and algorithmic thinking when developing this program.",
+    ms:["Abstraction \u2014 a card is reduced to a suit and a value; the artwork and the physical card are irrelevant",
+        "Abstraction \u2014 the purpose named: that is all the rules need to decide who wins a hand",
+        "Decomposition \u2014 shuffle, deal, player turn, computer turn, compare cards, keep score",
+        "Decomposition \u2014 each part can be written and tested on its own, and \u201ccompare two cards\u201d is reused every hand",
+        "Algorithmic thinking \u2014 the computer's move must be an exact rule, e.g. play the highest card of the suit led, otherwise the lowest",
+        "Algorithmic thinking \u2014 the stages run in a fixed order and must work for any hand the shuffle deals"],
+    note:"Marked on application. Perfect definitions with no mention of cards sit in Level 1 \u2014 about half marks at best." }
+];
+
+var SECT = { A:3, B:9, C:9 };
+var KEY = "decompose-it-paper-v1";
+var saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e){ saved = {}; }
+
+var body = $("paper-body");
+body.innerHTML = PAPER.map(function(q){
+  var head = '<div class="qhead"><span class="qnum">' + q.n + '</span><span class="qtext">' +
+    (q.context ? '<span class="ctx">' + q.context + '</span>' : '') + q.text +
+    '</span><span class="tariff">[' + q.marks + (q.marks === 1 ? ' mark]' : ' marks]') + '</span></div>';
+
+  var inner = q.type === "mcq"
+    ? '<div class="mcq">' + q.options.map(function(o,i){
+        return '<label data-opt="'+i+'"><input type="radio" name="q'+q.n+'" value="'+i+'"> <span>'+o+'</span></label>';
+      }).join("") + '</div>'
+    : '<textarea data-q="'+q.n+'" rows="'+Math.max(2, Math.min(8, q.marks+1))+'" placeholder="'+q.marks+(q.marks===1?' point':' separate points')+'\u2026" aria-label="Answer to question '+q.n+'"></textarea>';
+
+  var scheme = '<div class="ms" hidden data-ms="'+q.n+'"><div class="ms-label">Mark scheme \u2014 tick only what you actually wrote</div><ul>' +
+    (q.type === "mcq"
+      ? '<li><input type="checkbox" data-mark="'+q.n+'" id="m'+q.n+'-0" disabled> <label for="m'+q.n+'-0">'+q.options[q.answer]+'</label></li>'
+      : q.ms.map(function(m,i){
+          return '<li><input type="checkbox" data-mark="'+q.n+'" id="m'+q.n+'-'+i+'"> <label for="m'+q.n+'-'+i+'">'+m+'</label></li>';
+        }).join("")) +
+    '</ul><div class="note"><b>Examiner\u2019s note.</b> ' + q.note + '</div></div>';
+
+  return '<div class="qblock" data-q="'+q.n+'">' + head + '<div class="qbody">' + inner +
+    '<button class="reveal" data-show="'+q.n+'" style="margin-top:12px">Show mark scheme</button>' + scheme +
+    '<div class="qscore" data-score="'+q.n+'" hidden></div></div></div>';
+}).join("");
+
+PAPER.forEach(function(q){
+  var v = saved[q.n];
+  if (v === undefined) return;
+  if (q.type === "mcq"){
+    var r = body.querySelector('input[name="q'+q.n+'"][value="'+v+'"]');
+    if (r) r.checked = true;
+  } else {
+    var t = body.querySelector('textarea[data-q="'+q.n+'"]');
+    if (t) t.value = v;
+  }
+});
+
+function save(){
+  var out = {};
+  PAPER.forEach(function(q){
+    if (q.type === "mcq"){
+      var r = body.querySelector('input[name="q'+q.n+'"]:checked');
+      if (r) out[q.n] = Number(r.value);
+    } else {
+      var t = body.querySelector('textarea[data-q="'+q.n+'"]');
+      if (t && t.value.trim()) out[q.n] = t.value;
+    }
+  });
+  try { localStorage.setItem(KEY, JSON.stringify(out)); } catch(e){}
+}
+body.addEventListener("input", function(){ save(); tally(); });
+
+body.addEventListener("click", function(ev){
+  var btn = ev.target.closest(".reveal[data-show]");
+  if (!btn) return;
+  var nn = btn.dataset.show;
+  var ms = body.querySelector('.ms[data-ms="'+nn+'"]');
+  var open = !ms.hidden;
+  ms.hidden = open;
+  btn.textContent = open ? "Show mark scheme" : "Hide mark scheme";
+  var q = PAPER.filter(function(x){ return x.n === nn; })[0];
+  if (!open && q.type === "mcq"){
+    var chosen = body.querySelector('input[name="q'+nn+'"]:checked');
+    Array.prototype.forEach.call(body.querySelectorAll('.qblock[data-q="'+nn+'"] .mcq label'), function(l){
+      var i = Number(l.dataset.opt);
+      l.classList.toggle("right", i === q.answer);
+      l.classList.toggle("wrong", !!chosen && i === Number(chosen.value) && i !== q.answer);
+    });
+    body.querySelector('input[data-mark="'+nn+'"]').checked = !!(chosen && Number(chosen.value) === q.answer);
+  }
+  tally();
+});
+body.addEventListener("change", function(ev){ if (ev.target.matches("input[data-mark]")) tally(); });
+
+function tally(){
+  var any = false, per = {};
+  PAPER.forEach(function(q){
+    var boxes = Array.prototype.slice.call(body.querySelectorAll('input[data-mark="'+q.n+'"]'));
+    var ms = body.querySelector('.ms[data-ms="'+q.n+'"]');
+    var shown = ms && !ms.hidden;
+    var got = boxes.filter(function(b){ return b.checked; }).length;
+    var earned = q.type === "mcq" ? (got ? q.marks : 0) : got;
+    per[q.n] = { earned: earned, shown: shown };
+    if (shown) any = true;
+    var sc = body.querySelector('[data-score="'+q.n+'"]');
+    sc.hidden = !shown;
+    sc.textContent = earned + " / " + q.marks + " marks";
+    sc.style.color = earned === q.marks ? "var(--good)" : (earned === 0 ? "var(--miss)" : "var(--ink-3)");
+  });
+
+  var res = $("result");
+  res.hidden = !any;
+  if (!any) return;
+
+  var tot = { A:0, B:0, C:0 }, dropped = [];
+  PAPER.forEach(function(q){
+    tot[q.sec] += per[q.n].earned;
+    if (per[q.n].shown && per[q.n].earned < q.marks){
+      dropped.push({ n:q.n, lost:q.marks - per[q.n].earned, note:q.note });
+    }
+  });
+  var total = tot.A + tot.B + tot.C, pc = Math.round(total / 21 * 100);
+  $("total").innerHTML = total + "<span>/21</span>";
+  $("pcent").textContent = pc + "%";
+  $("sa").textContent = tot.A + "/3";
+  $("sb").textContent = tot.B + "/9";
+  $("sc").textContent = tot.C + "/9";
+  $("verdict").textContent = pc >= 80 ? "Green. This spec point is secure."
+    : pc >= 55 ? "Amber. You know it; you are not applying it to the question."
+    : "Red for now. Re-read the three sentences and sit it again tomorrow.";
+
+  var rl = $("redlist");
+  rl.innerHTML = dropped.length
+    ? "<ul>" + dropped.map(function(d){
+        return "<li><b>Q" + d.n + " \u2014 " + d.lost + (d.lost === 1 ? " mark" : " marks") + " lost.</b> " + d.note + "</li>";
+      }).join("") + "</ul>"
+    : '<p class="clear">Nothing dropped on the questions you have marked. Mark the rest, then move on to 2.1.2.</p>';
+}
+
+/* timer */
+var left = 25 * 60, ticking = false, handle = null;
+var tEl = $("timer"), tBtn = $("timer-btn");
+function paint(){
+  var m = Math.floor(Math.abs(left)/60), s = Math.abs(left) % 60;
+  tEl.textContent = (left < 0 ? "+" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  tEl.classList.toggle("over", left <= 0);
+}
+tBtn.addEventListener("click", function(){
+  if (ticking){ clearInterval(handle); ticking = false; tBtn.textContent = "Resume"; }
+  else { ticking = true; tBtn.textContent = "Pause"; handle = setInterval(function(){ left--; paint(); }, 1000); }
+});
+paint();
+tally();
+
+})();
+</script>

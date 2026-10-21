@@ -1,0 +1,1237 @@
+<title>Be The CPU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+:root{
+  --paper:#EFF1F6;
+  --sheet:#FFFFFF;
+  --sunk:#E4E7EF;
+  --ink:#161A2B;
+  --ink-2:#4A5169;
+  --ink-3:#7A819A;
+  --rule:#CDD3E0;
+  --rule-soft:#E1E5EE;
+  --copper:#B45318;
+  --copper-soft:#F3E2D5;
+  --slate:#33507A;
+  --slate-soft:#DFE7F3;
+  --good:#1F6B4A;
+  --good-soft:#DCEDE3;
+  --miss:#A32D3C;
+  --miss-soft:#F6DFE2;
+  --shadow:0 1px 2px rgba(22,26,43,.07), 0 8px 24px -12px rgba(22,26,43,.22);
+  --step:22px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1220;
+    --sheet:#171B2C;
+    --sunk:#10131F;
+    --ink:#E9EBF3;
+    --ink-2:#A8AFC6;
+    --ink-3:#767D96;
+    --rule:#2C3248;
+    --rule-soft:#232839;
+    --copper:#E39257;
+    --copper-soft:#3A2415;
+    --slate:#8FB2E0;
+    --slate-soft:#1C2740;
+    --good:#5FC894;
+    --good-soft:#17301F;
+    --miss:#EE8C99;
+    --miss-soft:#33161C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1220;
+  --sheet:#171B2C;
+  --sunk:#10131F;
+  --ink:#E9EBF3;
+  --ink-2:#A8AFC6;
+  --ink-3:#767D96;
+  --rule:#2C3248;
+  --rule-soft:#232839;
+  --copper:#E39257;
+  --copper-soft:#3A2415;
+  --slate:#8FB2E0;
+  --slate-soft:#1C2740;
+  --good:#5FC894;
+  --good-soft:#17301F;
+  --miss:#EE8C99;
+  --miss-soft:#33161C;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Archivo",sans-serif;text-wrap:balance;margin:0}
+h1{font-weight:800;font-size:clamp(34px,6vw,54px);line-height:1.02;letter-spacing:-.025em}
+h2{font-weight:800;font-size:clamp(23px,3.4vw,30px);letter-spacing:-.018em;line-height:1.12}
+h3{font-weight:600;font-size:17px;letter-spacing:-.008em}
+p{margin:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--copper);
+}
+.lede{color:var(--ink-2);font-size:17px;max-width:63ch}
+.dim{color:var(--ink-2)}
+.tiny{font-size:13.5px;line-height:1.5}
+
+/* ---- masthead ---- */
+.masthead{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:14px}
+.mast-meta{
+  display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;
+}
+.mast-meta b{color:var(--ink-2);font-weight:700}
+.masthead h1{margin-bottom:14px}
+
+/* ---- the run of play ---- */
+.plan{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:0;border:1px solid var(--rule);border-radius:3px;background:var(--sheet);
+  margin:28px 0 0;overflow:hidden;
+}
+.plan-step{padding:16px 18px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:4px}
+.plan-step:last-child{border-right:0}
+.plan-step .n{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--copper);letter-spacing:.1em}
+.plan-step .t{font-weight:600;font-size:15px}
+.plan-step .d{font-size:13px;color:var(--ink-3);line-height:1.45}
+
+section{margin-top:56px;scroll-margin-top:20px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.sec-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---- sentence bank ---- */
+.bank{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+.line{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.6fr);gap:0 28px;
+  padding:15px 0;border-bottom:1px solid var(--rule-soft);align-items:start;
+}
+.line .ask{font-weight:600;font-size:15px;line-height:1.4}
+.line .ask .tar{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--copper);
+  font-weight:700;margin-left:7px;
+}
+.line .say{color:var(--ink-2);font-size:15px;line-height:1.55}
+.line .say b{color:var(--ink);font-weight:600}
+@media (max-width:680px){ .line{grid-template-columns:1fr;gap:5px} }
+
+/* ---- simulator ---- */
+.board{
+  background:var(--sheet);border:1px solid var(--rule);border-radius:4px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.board-top{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid var(--rule);background:var(--sunk);
+}
+.progsel{display:flex;gap:6px;flex-wrap:wrap}
+.chip{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  padding:6px 11px;border:1px solid var(--rule);background:transparent;color:var(--ink-2);
+  border-radius:2px;cursor:pointer;transition:.15s;
+}
+.chip:hover{border-color:var(--copper);color:var(--copper)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.stage-track{display:flex;gap:3px;align-items:center}
+.stg{
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+  padding:5px 10px;border:1px solid var(--rule);color:var(--ink-3);border-radius:2px;transition:.2s;
+}
+.stg.on{background:var(--copper);border-color:var(--copper);color:#fff}
+:root[data-theme="dark"] .stg.on,
+:root:not([data-theme="light"]) .stg.on{color:#1A1005}
+
+.board-grid{display:grid;grid-template-columns:1fr 240px;gap:0}
+@media (max-width:760px){ .board-grid{grid-template-columns:1fr} }
+.cpu-pane{padding:20px 18px;border-right:1px solid var(--rule)}
+.mem-pane{padding:20px 16px;background:var(--sunk)}
+@media (max-width:760px){ .cpu-pane{border-right:0;border-bottom:1px solid var(--rule)} }
+.pane-label{
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;
+}
+.regs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (max-width:430px){ .regs{grid-template-columns:1fr} }
+.reg{
+  border:1px solid var(--rule);border-left:3px solid var(--rule);border-radius:2px;
+  padding:10px 12px;background:var(--sheet);transition:border-color .2s, background .2s;
+}
+.reg.addr{border-left-color:var(--slate)}
+.reg.data{border-left-color:var(--copper)}
+.reg .rn{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.reg .rn strong{font-size:13.5px;font-weight:600}
+.reg .rn span{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;color:var(--ink-3)}
+.reg .val{
+  font-family:"JetBrains Mono",monospace;font-size:21px;font-weight:700;margin-top:5px;
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.reg .cap{font-size:11.5px;color:var(--ink-3);line-height:1.35;margin-top:3px}
+.reg.hit{background:var(--copper-soft);border-color:var(--copper)}
+.reg.hit .val{color:var(--copper)}
+@media (prefers-reduced-motion:no-preference){
+  .reg.hit{animation:tick .34s ease-out}
+  @keyframes tick{from{transform:translateY(-2px)}to{transform:none}}
+}
+.alu{
+  margin-top:10px;display:flex;gap:10px;
+}
+.unit{
+  flex:1;border:1px dashed var(--rule);border-radius:2px;padding:9px 11px;
+  font-size:13px;color:var(--ink-3);transition:.2s;
+}
+.unit strong{display:block;font-size:13.5px;color:var(--ink-2);font-weight:600}
+.unit.hit{border-style:solid;border-color:var(--slate);background:var(--slate-soft);color:var(--slate)}
+.unit.hit strong{color:var(--slate)}
+
+.memtable{width:100%;border-collapse:collapse;font-family:"JetBrains Mono",monospace;font-size:12.5px}
+.memtable th{
+  text-align:left;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:700;padding:0 6px 6px;border-bottom:1px solid var(--rule);
+}
+.memtable td{padding:4px 6px;border-bottom:1px solid var(--rule-soft);font-variant-numeric:tabular-nums}
+.memtable td.a{color:var(--ink-3)}
+.memtable tr.hit td{background:var(--copper-soft);color:var(--copper)}
+.memtable tr.pc td.a{color:var(--slate);font-weight:700}
+.memtable + .memtable{margin-top:16px}
+
+.narrate{
+  padding:16px 18px;border-top:1px solid var(--rule);background:var(--sheet);
+  display:flex;gap:14px;align-items:flex-start;min-height:86px;
+}
+.narrate .cyc{
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  color:var(--ink-3);white-space:nowrap;padding-top:3px;
+}
+.narrate .say{font-size:16px;line-height:1.5;max-width:62ch}
+.narrate .say em{font-style:normal;color:var(--copper);font-weight:600}
+.controls{
+  display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--rule);
+  background:var(--sunk);align-items:center;
+}
+button{font-family:inherit}
+.btn{
+  font-size:14px;font-weight:600;padding:9px 16px;border-radius:2px;cursor:pointer;
+  border:1px solid var(--ink);background:var(--ink);color:var(--paper);transition:.15s;
+}
+.btn:hover{opacity:.86}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--ink-2);color:var(--ink);opacity:1}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn:focus-visible,.chip:focus-visible,a:focus-visible,textarea:focus-visible,.opt:focus-visible{
+  outline:2px solid var(--copper);outline-offset:2px;
+}
+.hint{font-size:12.5px;color:var(--ink-3);margin-left:auto}
+
+/* ---- drill ---- */
+.drill{
+  background:var(--sheet);border:1px solid var(--rule);border-radius:4px;
+  box-shadow:var(--shadow);padding:24px 22px;
+}
+.drill-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:16px}
+.drill-q{font-size:20px;font-weight:600;line-height:1.35;margin-bottom:16px;min-height:54px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  text-align:left;padding:12px 14px;border:1px solid var(--rule);background:transparent;
+  color:var(--ink);border-radius:2px;cursor:pointer;font-size:15px;line-height:1.4;transition:.13s;
+}
+.opt:hover:not(:disabled){border-color:var(--copper);background:var(--copper-soft)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good);background:var(--good-soft);color:var(--good);font-weight:600}
+.opt.wrong{border-color:var(--miss);background:var(--miss-soft);color:var(--miss)}
+.drill-foot{margin-top:14px;font-size:14.5px;color:var(--ink-2);min-height:44px;line-height:1.45}
+.drill-foot b{color:var(--ink)}
+.bar{height:3px;background:var(--rule-soft);border-radius:2px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--copper);transition:width .3s}
+
+/* ---- knowledge organiser ---- */
+.organiser{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
+.org-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule);background:var(--sunk)}
+.org-score{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.org-row{display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr);gap:0 20px;padding:14px 18px;border-bottom:1px solid var(--rule-soft);align-items:start}
+.org-row:last-child{border-bottom:0}
+.org-row .term{font-weight:600;font-size:14.5px;line-height:1.35}
+.org-row .term span{display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;color:var(--ink-3);font-weight:700;margin-top:2px}
+.org-row textarea{width:100%;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2px;padding:7px 9px;resize:vertical;min-height:52px;background-image:none}
+.org-row textarea:focus{outline:none;border-color:var(--copper)}
+.org-answer{margin-top:8px;border-left:3px solid var(--slate);background:var(--sunk);padding:9px 12px;border-radius:2px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.org-answer .lbl{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:700;display:block;margin-bottom:4px}
+.org-mark{display:flex;gap:7px;margin-top:8px}
+.org-mark button{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;padding:5px 11px;border:1px solid var(--rule);background:transparent;color:var(--ink-3);border-radius:2px;cursor:pointer}
+.org-mark button.got[aria-pressed="true"]{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.org-mark button.gap[aria-pressed="true"]{border-color:var(--miss);background:var(--miss-soft);color:var(--miss)}
+@media (max-width:640px){ .org-row{grid-template-columns:1fr;gap:7px} }
+
+/* ---- exam paper ---- */
+.paper{
+  background:var(--sheet);border:1px solid var(--rule);border-radius:3px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.paper-head{
+  padding:20px 26px;border-bottom:2px solid var(--ink);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;
+}
+.paper-head .t{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:20px;letter-spacing:-.015em}
+.paper-head .s{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin-top:2px}
+.timer{
+  font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:700;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.timer.over{color:var(--miss)}
+.paper-body{padding:8px 26px 26px}
+.qblock{padding:20px 0;border-bottom:1px solid var(--rule-soft)}
+.qblock:last-of-type{border-bottom:0}
+.qhead{display:flex;gap:12px;align-items:baseline}
+.qnum{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:14px;color:var(--ink-3);min-width:22px}
+.qtext{flex:1;font-size:16px;line-height:1.5}
+.qtext .ctx{display:block;color:var(--ink-2);font-size:14.5px;margin-bottom:7px;border-left:2px solid var(--rule);padding-left:11px}
+.tariff{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.qbody{margin-left:34px;margin-top:12px}
+textarea{
+  width:100%;font-family:"Archivo",sans-serif;font-size:15px;line-height:1.65;color:var(--ink);
+  background:transparent;border:0;border-bottom:1px solid var(--rule);border-radius:0;
+  padding:6px 2px;resize:vertical;min-height:64px;
+  background-image:repeating-linear-gradient(transparent,transparent 25px,var(--rule-soft) 25px,var(--rule-soft) 26px);
+  line-height:26px;
+}
+textarea:focus{outline:none;border-bottom-color:var(--copper)}
+.mcq{display:flex;flex-direction:column;gap:7px}
+.mcq label{
+  display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border:1px solid transparent;
+  border-radius:2px;cursor:pointer;font-size:15px;line-height:1.4;
+}
+.mcq label:hover{background:var(--sunk)}
+.mcq input{margin-top:4px;accent-color:var(--copper);flex-shrink:0}
+.mcq label.right{border-color:var(--good);background:var(--good-soft)}
+.mcq label.wrong{border-color:var(--miss);background:var(--miss-soft)}
+.ms{
+  margin-top:14px;border:1px solid var(--rule);border-left:3px solid var(--slate);
+  border-radius:2px;padding:14px 16px;background:var(--sunk);
+}
+.ms-label{
+  font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--slate);margin-bottom:10px;
+}
+.ms ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.ms li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.45}
+.ms li input{margin-top:4px;accent-color:var(--good);flex-shrink:0;width:15px;height:15px}
+.ms li label{cursor:pointer;color:var(--ink-2)}
+.ms .note{margin-top:11px;padding-top:11px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink-3);line-height:1.5}
+.ms .note b{color:var(--copper);font-weight:600}
+.qscore{
+  display:flex;align-items:center;gap:10px;margin-top:12px;
+  font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+}
+.reveal{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  border:1px solid var(--rule);background:transparent;color:var(--ink-2);padding:6px 12px;
+  border-radius:2px;cursor:pointer;margin-top:12px;transition:.15s;
+}
+.reveal:hover{border-color:var(--slate);color:var(--slate)}
+
+.result{
+  margin-top:24px;border:1px solid var(--rule);border-radius:3px;background:var(--sheet);
+  box-shadow:var(--shadow);padding:24px 26px;
+}
+.result-top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.bigscore{
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:56px;line-height:1;
+  letter-spacing:-.035em;font-variant-numeric:tabular-nums;
+}
+.bigscore span{font-size:24px;color:var(--ink-3)}
+.pcent{font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:700;color:var(--copper)}
+.sects{display:flex;gap:22px;flex-wrap:wrap;margin:16px 0 0;padding-top:16px;border-top:1px solid var(--rule-soft)}
+.sects div{display:flex;flex-direction:column;gap:2px}
+.sects .k{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.sects .v{font-family:"JetBrains Mono",monospace;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+.redlist{margin-top:18px;padding-top:16px;border-top:1px solid var(--rule-soft)}
+.redlist h3{margin-bottom:9px}
+.redlist ul{margin:0;padding-left:19px;color:var(--ink-2);font-size:14.5px;line-height:1.6}
+.redlist li::marker{color:var(--miss)}
+.redlist .clear{color:var(--good);font-size:14.5px}
+
+footer{
+  margin-top:56px;padding-top:22px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--ink-3);line-height:1.6;display:flex;
+  justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+footer b{color:var(--ink-2);font-weight:600}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="mast-meta">
+      <span>OCR J277 &middot; <b>Paper 1</b></span>
+      <span>Spec point <b>1.1.1</b></span>
+      <span>Year 10 &middot; Autumn 1 &middot; Week 1</span>
+      <span>Worksheet 1 follow-up</span>
+    </div>
+    <h1>Be The CPU</h1>
+    <p class="lede">Everything spec point 1.1.1 asks for, in the order it makes sense: the sentences that earn marks, a processor you can step through one transfer at a time, the knowledge organiser to write out from memory, and a 25-mark paper you mark yourself. About an hour, start to finish.</p>
+    <div class="plan">
+      <div class="plan-step"><span class="n">01</span><span class="t">Read the sentences</span><span class="d">Eight answers, in exam wording. Five minutes, cover them, say them back.</span></div>
+      <div class="plan-step"><span class="n">02</span><span class="t">Run the machine</span><span class="d">Step a program through the registers until the order is automatic.</span></div>
+      <div class="plan-step"><span class="n">03</span><span class="t">Drill the registers</span><span class="d">Twelve rapid questions. Address or data &mdash; no hesitating.</span></div>
+      <div class="plan-step"><span class="n">04</span><span class="t">Cover and write</span><span class="d">The knowledge organiser from memory, marked honestly.</span></div>
+      <div class="plan-step"><span class="n">05</span><span class="t">Sit the paper</span><span class="d">25 marks, 30 minutes, book shut. Then mark it honestly.</span></div>
+    </div>
+  </header>
+
+  <!-- ================= 1. THE SENTENCES ================= -->
+  <section id="sentences">
+    <div class="sec-head">
+      <div class="row">
+        <h2>The eight sentences</h2>
+        <span class="eyebrow">Step 01 &middot; 5 min</span>
+      </div>
+      <p class="lede">Nobody loses marks here for not knowing what a MAR is. They lose them for writing the question back, or giving a fact without its effect. These are the wordings that score. The tariff tells you how many separate points to make.</p>
+    </div>
+    <div class="bank">
+      <div class="line">
+        <div class="ask">State the purpose of the CPU.<span class="tar">[1]</span></div>
+        <div class="say">It <b>processes instructions and data</b>. Not &ldquo;the brain&rdquo;. Not &ldquo;calculations&rdquo;. And it does not <em>store</em> anything &mdash; storing is the job of memory.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Describe the fetch stage.<span class="tar">[2]</span></div>
+        <div class="say">The address in the <b>program counter is copied into the MAR</b>. The instruction at that address is <b>copied from memory into the MDR</b>, and the program counter is incremented.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Describe the decode stage.<span class="tar">[1]</span></div>
+        <div class="say">The <b>control unit works out what the instruction means</b> &mdash; what operation is wanted and what data it needs.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Describe the execute stage.<span class="tar">[1]</span></div>
+        <div class="say">The instruction is <b>carried out</b>. If it is arithmetic or a comparison, the <b>ALU does it and the result goes to the accumulator</b>.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Explain the stored program concept.<span class="tar">[2]</span></div>
+        <div class="say">Program <b>instructions and the data they use are held in the same main memory</b>, and are <b>fetched and executed one at a time</b> rather than the machine being hard-wired. Stopping at &ldquo;stored together&rdquo; gets one of the two.</div>
+      </div>
+      <div class="line">
+        <div class="ask">What holds an address, what holds data?<span class="tar">[4]</span></div>
+        <div class="say"><b>PC</b> &mdash; address of the <em>next</em> instruction. <b>MAR</b> &mdash; address about to be read or written. <b>MDR</b> &mdash; the actual instruction or data. <b>ACC</b> &mdash; the ALU&rsquo;s result. The middle word of MA<em>R</em> and MD<em>R</em> is the whole answer.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Explain how cache improves performance.<span class="tar">[2]</span></div>
+        <div class="say">It holds <b>frequently</b> used instructions and data close to the CPU, and is faster to reach than RAM, <b>so the CPU waits less and executes more instructions per second</b>. &ldquo;Explain&rdquo; always wants the effect.</div>
+      </div>
+      <div class="line">
+        <div class="ask">Why does the cycle never stop?<span class="tar">[3]</span></div>
+        <div class="say">A program is <b>a long list of instructions</b> and only <b>one can be processed at a time</b>, so the cycle repeats. Even when the machine looks idle the <b>operating system is still issuing instructions</b>, so it only stops at power off.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. THE MACHINE ================= -->
+  <section id="machine">
+    <div class="sec-head">
+      <div class="row">
+        <h2>Run the machine</h2>
+        <span class="eyebrow">Step 02 &middot; 10 min</span>
+      </div>
+      <p class="lede">One press of <b>Step</b> is one transfer. Watch which register changes and read the sentence underneath &mdash; that sentence is what a six-mark answer is made of. Get to the end of a program twice, then say the seven steps without looking.</p>
+    </div>
+
+    <div class="board">
+      <div class="board-top">
+        <div class="progsel" role="group" aria-label="Choose a program">
+          <button class="chip" data-prog="0" aria-pressed="true">Program A &middot; worksheet</button>
+          <button class="chip" data-prog="1" aria-pressed="false">Program B &middot; ADD 205</button>
+        </div>
+        <div class="stage-track" aria-label="Current stage">
+          <span class="stg" data-stage="FETCH">Fetch</span>
+          <span class="stg" data-stage="DECODE">Decode</span>
+          <span class="stg" data-stage="EXECUTE">Execute</span>
+        </div>
+      </div>
+
+      <div class="board-grid">
+        <div class="cpu-pane">
+          <div class="pane-label">Central Processing Unit</div>
+          <div class="regs">
+            <div class="reg addr" id="reg-pc">
+              <div class="rn"><strong>Program counter</strong><span>ADDRESS</span></div>
+              <div class="val">100</div>
+              <div class="cap">Address of the next instruction</div>
+            </div>
+            <div class="reg addr" id="reg-mar">
+              <div class="rn"><strong>MAR</strong><span>ADDRESS</span></div>
+              <div class="val">&mdash;</div>
+              <div class="cap">Address about to be accessed</div>
+            </div>
+            <div class="reg data" id="reg-mdr">
+              <div class="rn"><strong>MDR</strong><span>DATA</span></div>
+              <div class="val">&mdash;</div>
+              <div class="cap">The instruction or value fetched</div>
+            </div>
+            <div class="reg data" id="reg-acc">
+              <div class="rn"><strong>Accumulator</strong><span>DATA</span></div>
+              <div class="val">0</div>
+              <div class="cap">Result of an ALU operation</div>
+            </div>
+          </div>
+          <div class="alu">
+            <div class="unit" id="unit-cu"><strong>Control unit</strong>decodes and coordinates</div>
+            <div class="unit" id="unit-alu"><strong>ALU</strong>arithmetic and logic</div>
+          </div>
+        </div>
+
+        <div class="mem-pane">
+          <div class="pane-label">Main memory</div>
+          <table class="memtable" id="mem-code">
+            <thead><tr><th>Addr</th><th>Instruction</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <table class="memtable" id="mem-data">
+            <thead><tr><th>Addr</th><th>Data</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="narrate">
+        <span class="cyc" id="cyc">READY</span>
+        <p class="say" id="say">Program A is loaded and the program counter holds 100. Press <em>Step</em> to copy that address into the MAR.</p>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="step">Step</button>
+        <button class="btn ghost" id="cycle">Whole instruction</button>
+        <button class="btn ghost" id="reset">Reset</button>
+        <span class="hint" id="hint">Transfer 0 of 0</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. THE DRILL ================= -->
+  <section id="drill">
+    <div class="sec-head">
+      <div class="row">
+        <h2>Register drill</h2>
+        <span class="eyebrow">Step 03 &middot; 3 min</span>
+      </div>
+      <p class="lede">Twelve questions, no thinking time. If you hesitate on one, that is the row to put a red against.</p>
+    </div>
+    <div class="drill">
+      <div class="bar"><i id="drill-bar" style="width:0%"></i></div>
+      <div class="drill-top">
+        <span class="eyebrow" id="drill-count">Question 1 of 12</span>
+        <span class="mono tiny dim" id="drill-score">0 correct</span>
+      </div>
+      <p class="drill-q" id="drill-q"></p>
+      <div class="opts" id="drill-opts"></div>
+      <p class="drill-foot" id="drill-foot"></p>
+    </div>
+  </section>
+
+  <!-- ================= 4. COVER AND WRITE ================= -->
+  <section id="organiser-sec">
+    <div class="sec-head">
+      <div class="row">
+        <h2>Cover and write</h2>
+        <span class="eyebrow">Step 04 &middot; 10 min</span>
+      </div>
+      <p class="lede">The knowledge organiser from the back of your booklet, with the answers taken away. Write each one from memory, then check yourself and mark it honestly. This is the step that actually moves a red to a green &mdash; and the gap you find is the thing you did not know, not the thing you got wrong.</p>
+    </div>
+    <div class="organiser">
+      <div class="org-top">
+        <span class="eyebrow">Knowledge organiser &middot; 1.1.1 Architecture of the CPU</span>
+        <span class="org-score" id="org-score">Not started</span>
+      </div>
+      <div id="organiser"></div>
+    </div>
+  </section>
+
+  <!-- ================= 5. THE PAPER ================= -->
+  <section id="paper">
+    <div class="sec-head">
+      <div class="row">
+        <h2>The paper</h2>
+        <span class="eyebrow">Step 05 &middot; 30 min</span>
+      </div>
+      <p class="lede">Twenty-five marks, in the tariff and command words OCR uses. Scroll past nothing and reveal no mark scheme until the whole paper is written. Then mark it against the scheme honestly &mdash; a tick you did not earn is a mark you will lose in June instead.</p>
+    </div>
+
+    <div class="paper">
+      <div class="paper-head">
+        <div>
+          <div class="t">Computer systems &mdash; 1.1.1 Architecture of the CPU</div>
+          <div class="s">Section A 4 &middot; Section B 12 &middot; Section C 9 &middot; Total 25 marks</div>
+        </div>
+        <div style="text-align:right">
+          <div class="timer" id="timer">30:00</div>
+          <button class="reveal" id="timer-btn" style="margin-top:4px">Start</button>
+        </div>
+      </div>
+      <div class="paper-body" id="paper-body"></div>
+    </div>
+
+    <div class="result" id="result" hidden>
+      <div class="result-top">
+        <div class="bigscore" id="total">0<span>/25</span></div>
+        <div>
+          <div class="pcent" id="pcent">0%</div>
+          <div class="tiny dim" id="verdict"></div>
+        </div>
+      </div>
+      <div class="sects">
+        <div><span class="k">Section A</span><span class="v" id="sa">0/4</span></div>
+        <div><span class="k">Section B</span><span class="v" id="sb">0/12</span></div>
+        <div><span class="k">Section C</span><span class="v" id="sc">0/9</span></div>
+      </div>
+      <div class="redlist">
+        <h3>For the Red List at the back of your tracker</h3>
+        <div id="redlist"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>What to do with the score.</b> Anything you dropped goes on the Red List, then follow the four steps: watch the Craig&rsquo;n&rsquo;Dave video for 1.1.1, cover the knowledge organiser and write it out, do the Physics &amp; Maths Tutor questions for 1.1, and mark them. Step four is the one people skip.</p>
+    <p class="mono" style="font-size:11.5px;letter-spacing:.08em">OCR J277 &middot; 1.1.1<br>Authored practice, not past-paper material</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================ 1. SIMULATOR ============================ */
+
+const PROGRAMS = [
+  {
+    name: "Program A",
+    code: [
+      {addr:100, op:"LDA", arg:200},
+      {addr:101, op:"ADD", arg:201},
+      {addr:102, op:"SUB", arg:202},
+      {addr:103, op:"STO", arg:203},
+      {addr:104, op:"HLT", arg:null}
+    ],
+    data: [[200,14],[201,9],[202,5],[203,null]],
+    intro: "Program A is loaded and the program counter holds 100. Press <em>Step</em> to copy that address into the MAR."
+  },
+  {
+    name: "Program B",
+    code: [
+      {addr:100, op:"LDA", arg:204},
+      {addr:101, op:"ADD", arg:205},
+      {addr:102, op:"STO", arg:206},
+      {addr:103, op:"HLT", arg:null}
+    ],
+    data: [[204,30],[205,12],[206,null]],
+    intro: "This is the exam question: the CPU is about to execute ADD 205, which adds the value at location 205 to the accumulator. Step through it and the six-mark answer writes itself."
+  }
+];
+
+const MEANING = {
+  LDA: a => "load the value stored at address " + a + " into the accumulator",
+  ADD: a => "add the value stored at address " + a + " to the accumulator",
+  SUB: a => "subtract the value stored at address " + a + " from the accumulator",
+  STO: a => "store the accumulator's value at address " + a,
+  HLT: () => "stop"
+};
+
+const el = {
+  pc: document.getElementById("reg-pc"),
+  mar: document.getElementById("reg-mar"),
+  mdr: document.getElementById("reg-mdr"),
+  acc: document.getElementById("reg-acc"),
+  cu: document.getElementById("unit-cu"),
+  alu: document.getElementById("unit-alu"),
+  codeBody: document.querySelector("#mem-code tbody"),
+  dataBody: document.querySelector("#mem-data tbody"),
+  say: document.getElementById("say"),
+  cyc: document.getElementById("cyc"),
+  hint: document.getElementById("hint"),
+  stages: Array.prototype.slice.call(document.querySelectorAll(".stg"))
+};
+
+let prog = 0, steps = [], at = 0, mem = {};
+
+// Build every micro-step of the program up front. No jumps, so this is safe.
+function buildSteps(p){
+  const out = [];
+  const values = {};
+  p.data.forEach(function(d){ values[d[0]] = d[1]; });
+  let acc = 0, cycle = 0;
+
+  p.code.forEach(function(ins){
+    cycle++;
+    const c = cycle, next = ins.addr + 1;
+    const text = ins.op + (ins.arg !== null ? " " + ins.arg : "");
+
+    out.push({c:c, stage:"FETCH", hit:["pc","mar"], row:ins.addr,
+      set:{mar:ins.addr},
+      say:"The program counter holds <em>" + ins.addr + "</em>, so that address is copied into the <em>MAR</em>."});
+
+    out.push({c:c, stage:"FETCH", hit:["pc"], row:ins.addr,
+      set:{pc:next},
+      say:"The <em>program counter is incremented</em> to " + next + ", ready for the next instruction &mdash; done now, during fetch, because the instruction itself might change it."});
+
+    out.push({c:c, stage:"FETCH", hit:["mdr"], row:ins.addr,
+      set:{mdr:text},
+      say:"The instruction at the address held in the MAR is copied from main memory into the <em>MDR</em>: " + text + "."});
+
+    out.push({c:c, stage:"DECODE", hit:["mdr","cu"], row:ins.addr,
+      set:{},
+      say:"The <em>control unit</em> decodes the instruction in the MDR and works out what it means: " + MEANING[ins.op](ins.arg) + "."});
+
+    if (ins.op === "HLT"){
+      out.push({c:c, stage:"EXECUTE", hit:["cu"], row:ins.addr, set:{}, halt:true,
+        say:"The instruction is executed: the CPU halts. The program is finished."});
+      return;
+    }
+
+    out.push({c:c, stage:"EXECUTE", hit:["mar"], row:ins.arg,
+      set:{mar:ins.arg},
+      say:"The operand address <em>" + ins.arg + "</em> is placed in the MAR."});
+
+    if (ins.op === "STO"){
+      out.push({c:c, stage:"EXECUTE", hit:["mdr","acc"], row:ins.arg,
+        set:{mdr:acc},
+        say:"The value in the accumulator (" + acc + ") is copied into the <em>MDR</em>, ready to be written out."});
+      values[ins.arg] = acc;
+      out.push({c:c, stage:"EXECUTE", hit:["mdr"], row:ins.arg,
+        set:{write:[ins.arg, acc]},
+        say:"The value in the MDR is <em>written to memory</em> at address " + ins.arg + ". The accumulator is unchanged &mdash; and note the ALU was never used, because nothing was calculated."});
+      return;
+    }
+
+    const v = values[ins.arg];
+    out.push({c:c, stage:"EXECUTE", hit:["mdr"], row:ins.arg,
+      set:{mdr:v},
+      say:"The value stored at address " + ins.arg + " (<em>" + v + "</em>) is fetched into the MDR."});
+
+    let now, line;
+    if (ins.op === "LDA"){
+      now = v;
+      line = "The value is copied into the <em>accumulator</em>. No calculation, so the ALU is not used.";
+    } else if (ins.op === "ADD"){
+      now = acc + v;
+      line = "The <em>ALU</em> adds " + v + " to the " + acc + " already in the accumulator, and the result <em>" + now + "</em> is placed back in the accumulator.";
+    } else {
+      now = acc - v;
+      line = "The <em>ALU</em> subtracts " + v + " from the " + acc + " in the accumulator, and the result <em>" + now + "</em> is placed back in the accumulator.";
+    }
+    acc = now;
+    out.push({c:c, stage:"EXECUTE", hit: ins.op === "LDA" ? ["acc"] : ["alu","acc"], row:ins.arg,
+      set:{acc:now}, say:line});
+  });
+  return out;
+}
+
+function drawMemory(){
+  const p = PROGRAMS[prog];
+  el.codeBody.innerHTML = p.code.map(function(i){
+    return '<tr data-row="' + i.addr + '"><td class="a">' + i.addr + '</td><td>' +
+      i.op + (i.arg !== null ? " " + i.arg : "") + '</td></tr>';
+  }).join("");
+  el.dataBody.innerHTML = p.data.map(function(d){
+    return '<tr data-row="' + d[0] + '"><td class="a">' + d[0] + '</td><td data-val="' + d[0] + '">' +
+      (mem[d[0]] === null || mem[d[0]] === undefined ? "&mdash;" : mem[d[0]]) + '</td></tr>';
+  }).join("");
+}
+
+function setVal(node, v){
+  node.querySelector(".val").innerHTML = (v === null || v === undefined) ? "&mdash;" : v;
+}
+
+function reset(){
+  const p = PROGRAMS[prog];
+  mem = {};
+  p.data.forEach(function(d){ mem[d[0]] = d[1]; });
+  steps = buildSteps(p);
+  at = 0;
+  setVal(el.pc, p.code[0].addr);
+  setVal(el.mar, null);
+  setVal(el.mdr, null);
+  setVal(el.acc, 0);
+  ["pc","mar","mdr","acc"].forEach(function(k){ el[k].classList.remove("hit"); });
+  el.cu.classList.remove("hit");
+  el.alu.classList.remove("hit");
+  el.stages.forEach(function(s){ s.classList.remove("on"); });
+  el.say.innerHTML = p.intro;
+  el.cyc.textContent = "READY";
+  el.hint.textContent = "Transfer 0 of " + steps.length;
+  document.getElementById("step").disabled = false;
+  document.getElementById("cycle").disabled = false;
+  drawMemory();
+}
+
+function apply(s){
+  ["pc","mar","mdr","acc"].forEach(function(k){ el[k].classList.remove("hit"); });
+  el.cu.classList.remove("hit");
+  el.alu.classList.remove("hit");
+
+  if (s.set.pc !== undefined) setVal(el.pc, s.set.pc);
+  if (s.set.mar !== undefined) setVal(el.mar, s.set.mar);
+  if (s.set.mdr !== undefined) setVal(el.mdr, s.set.mdr);
+  if (s.set.acc !== undefined) setVal(el.acc, s.set.acc);
+  if (s.set.write){ mem[s.set.write[0]] = s.set.write[1]; drawMemory(); }
+
+  s.hit.forEach(function(k){
+    if (k === "cu") el.cu.classList.add("hit");
+    else if (k === "alu") el.alu.classList.add("hit");
+    else el[k].classList.add("hit");
+  });
+
+  el.stages.forEach(function(n){ n.classList.toggle("on", n.dataset.stage === s.stage); });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".memtable tr"), function(tr){
+    tr.classList.toggle("hit", Number(tr.dataset.row) === s.row);
+  });
+
+  el.cyc.innerHTML = "CYCLE " + s.c + "<br>" + s.stage;
+  el.say.innerHTML = s.say;
+  el.hint.textContent = "Transfer " + (at) + " of " + steps.length;
+
+  if (s.halt){
+    document.getElementById("step").disabled = true;
+    document.getElementById("cycle").disabled = true;
+    el.hint.textContent = "Halted \u2014 press Reset to run it again";
+  }
+}
+
+function step(){
+  if (at >= steps.length) return;
+  const s = steps[at];
+  at++;
+  apply(s);
+}
+
+document.getElementById("step").addEventListener("click", step);
+document.getElementById("reset").addEventListener("click", reset);
+document.getElementById("cycle").addEventListener("click", function(){
+  if (at >= steps.length) return;
+  const c = steps[at].c;
+  while (at < steps.length && steps[at].c === c) step();
+});
+Array.prototype.forEach.call(document.querySelectorAll(".chip[data-prog]"), function(b){
+  b.addEventListener("click", function(){
+    prog = Number(b.dataset.prog);
+    Array.prototype.forEach.call(document.querySelectorAll(".chip[data-prog]"), function(o){
+      o.setAttribute("aria-pressed", o === b ? "true" : "false");
+    });
+    reset();
+  });
+});
+reset();
+
+/* ============================== 2. DRILL ============================== */
+
+const DRILL = [
+  {q:"The MAR \u2014 does it hold an address or data?", o:["An address","Data"], a:0,
+   why:"Memory <b>ADDRESS</b> Register. The middle word of the name is always the answer."},
+  {q:"The MDR \u2014 address or data?", o:["An address","Data"], a:1,
+   why:"Memory <b>DATA</b> Register \u2014 the actual instruction or value fetched from memory."},
+  {q:"The program counter \u2014 address or data?", o:["An address","Data"], a:0,
+   why:"The address of the <b>next</b> instruction to be executed."},
+  {q:"The accumulator \u2014 address or data?", o:["An address","Data"], a:1,
+   why:"Data: the result of a calculation or comparison carried out by the ALU."},
+  {q:"Which register is incremented during every fetch?", o:["The MAR","The program counter","The accumulator"], a:1,
+   why:"So it points at the next instruction, ready for the following cycle."},
+  {q:"Which component decodes an instruction?", o:["The ALU","The cache","The control unit"], a:2,
+   why:"The control unit decodes instructions and sends control signals to coordinate everything else."},
+  {q:"Which component carries out arithmetic and logical comparisons?", o:["The ALU","The control unit","The MDR"], a:0,
+   why:"The Arithmetic Logic Unit. Its results go straight into the accumulator."},
+  {q:"Cache holds which instructions and data?", o:["Recently used","Frequently used","Randomly chosen"], a:1,
+   why:"<b>Frequently</b> used. The whole point is that the same things get reused \u2014 &ldquo;recently used&rdquo; loses the mark."},
+  {q:"What are the three stages of the cycle, in order?", o:["Fetch, execute, decode","Decode, fetch, execute","Fetch, decode, execute"], a:2,
+   why:"Fetch it, work out what it means, then do it."},
+  {q:"Instructions and data are stored in the same memory. What is that architecture called?", o:["Harvard","Von Neumann","Embedded"], a:1,
+   why:"Von Neumann \u2014 and the fact that the program lives in memory rather than being hard-wired is the stored program concept."},
+  {q:"Which of these should you write for &ldquo;state the purpose of the CPU&rdquo;?", o:["It is the brain of the computer","It processes instructions and data","It stores the computer's data"], a:1,
+   why:"&ldquo;Brain&rdquo; is vague and scores nothing. And the CPU processes \u2014 it does not store."},
+  {q:"STO 203 runs while the accumulator holds 18. What is in the accumulator afterwards?", o:["18","203","Empty"], a:0,
+   why:"STO <b>copies</b> the accumulator into memory. The accumulator keeps its value, and the ALU is not involved at all."}
+];
+
+let di = 0, dscore = 0, danswered = false;
+const dq = document.getElementById("drill-q"),
+      dopts = document.getElementById("drill-opts"),
+      dfoot = document.getElementById("drill-foot"),
+      dcount = document.getElementById("drill-count"),
+      dsc = document.getElementById("drill-score"),
+      dbar = document.getElementById("drill-bar");
+
+function renderDrill(){
+  if (di >= DRILL.length){
+    dcount.textContent = "Drill complete";
+    dbar.style.width = "100%";
+    dq.textContent = dscore + " out of " + DRILL.length + " correct.";
+    dopts.innerHTML = '<button class="opt" id="drill-again">Run it again</button>';
+    dfoot.innerHTML = dscore === DRILL.length
+      ? "<b>All twelve.</b> The registers are secure \u2014 go and sit the paper."
+      : "Anything you got wrong or hesitated over is worth one more read of the sentences above before you sit the paper.";
+    document.getElementById("drill-again").addEventListener("click", function(){
+      di = 0; dscore = 0; renderDrill();
+    });
+    return;
+  }
+  const item = DRILL[di];
+  danswered = false;
+  dcount.textContent = "Question " + (di + 1) + " of " + DRILL.length;
+  dsc.textContent = dscore + " correct";
+  dbar.style.width = (di / DRILL.length * 100) + "%";
+  dq.innerHTML = item.q;
+  dfoot.innerHTML = "";
+  dopts.innerHTML = item.o.map(function(t,i){
+    return '<button class="opt" data-i="' + i + '">' + t + '</button>';
+  }).join("");
+  Array.prototype.forEach.call(dopts.querySelectorAll(".opt"), function(b){
+    b.addEventListener("click", function(){
+      if (danswered) return;
+      danswered = true;
+      const chosen = Number(b.dataset.i), correct = chosen === item.a;
+      if (correct) dscore++;
+      Array.prototype.forEach.call(dopts.querySelectorAll(".opt"), function(o,i){
+        o.disabled = true;
+        if (i === item.a) o.classList.add("right");
+        else if (i === chosen) o.classList.add("wrong");
+      });
+      dsc.textContent = dscore + " correct";
+      dfoot.innerHTML = (correct ? "" : "<b>Not quite. </b>") + item.why +
+        ' <button class="reveal" id="drill-next" style="margin-top:0;margin-left:6px">Next &rarr;</button>';
+      document.getElementById("drill-next").addEventListener("click", function(){ di++; renderDrill(); });
+    });
+  });
+}
+renderDrill();
+
+/* ====================== 3. KNOWLEDGE ORGANISER ====================== */
+
+const ORG = [
+  { term:"Purpose of the CPU", def:"To process instructions and data. It fetches, decodes and executes instructions continuously." },
+  { term:"Fetch", def:"The address of the next instruction is taken from the program counter and copied to the MAR. The instruction at that address is copied into the MDR. The PC is incremented." },
+  { term:"Decode", def:"The control unit works out what the instruction means." },
+  { term:"Execute", def:"The instruction is carried out. The ALU performs any calculation or comparison, and the result goes to the accumulator." },
+  { term:"ALU", def:"Performs all arithmetic and logical operations." },
+  { term:"Control unit", def:"Decodes instructions and coordinates the other components with control signals." },
+  { term:"Cache", def:"Small, very fast memory holding frequently used instructions and data, so the CPU waits less for RAM." },
+  { term:"Registers", def:"Tiny, extremely fast stores inside the CPU. Each holds one value." },
+  { term:"Program counter", tag:"ADDRESS", def:"The address of the NEXT instruction. Incremented every fetch." },
+  { term:"MAR", tag:"ADDRESS", def:"The address the CPU is about to read from or write to." },
+  { term:"MDR", tag:"DATA", def:"The data or instruction just read from memory, or about to be written to it." },
+  { term:"Accumulator", tag:"DATA", def:"The result of an ALU operation." },
+  { term:"Von Neumann", def:"The stored program concept: instructions AND data share the same memory, and are fetched and executed one at a time." }
+];
+
+const ORG_KEY = "be-the-cpu-organiser-v1";
+let orgMarks = {};
+try { orgMarks = JSON.parse(localStorage.getItem(ORG_KEY) || "{}"); } catch(e){ orgMarks = {}; }
+
+document.getElementById("organiser").innerHTML = ORG.map(function(o,i){
+  return '<div class="org-row">' +
+    '<div class="term">' + o.term + (o.tag ? '<span>' + o.tag + '</span>' : '') + '</div>' +
+    '<div>' +
+      '<textarea data-org="' + i + '" rows="2" placeholder="Write it from memory\u2026" aria-label="Definition of ' + o.term + '"></textarea>' +
+      '<button class="reveal" data-oshow="' + i + '" style="margin-top:8px">Check myself</button>' +
+      '<div class="org-answer" data-oans="' + i + '" hidden><span class="lbl">What it should say</span>' + o.def +
+        '<div class="org-mark">' +
+          '<button class="got" data-omark="' + i + '" data-v="1" aria-pressed="false">I had that</button>' +
+          '<button class="gap" data-omark="' + i + '" data-v="0" aria-pressed="false">That is a gap</button>' +
+        '</div></div>' +
+    '</div></div>';
+}).join("");
+
+function orgScore(){
+  let got = 0, done = 0;
+  ORG.forEach(function(o,i){
+    if (orgMarks[i] === 1){ got++; done++; }
+    else if (orgMarks[i] === 0){ done++; }
+  });
+  const el = document.getElementById("org-score");
+  el.textContent = done === 0 ? "Not started"
+    : got + " of " + done + " checked" + (done < ORG.length ? " \u00b7 " + (ORG.length - done) + " to go" : "");
+  el.style.color = (done === ORG.length && got === ORG.length) ? "var(--good)" : "var(--ink)";
+}
+
+document.getElementById("organiser").addEventListener("click", function(ev){
+  const show = ev.target.closest("[data-oshow]");
+  if (show){
+    const a = document.querySelector('.org-answer[data-oans="' + show.dataset.oshow + '"]');
+    a.hidden = !a.hidden;
+    show.textContent = a.hidden ? "Check myself" : "Hide";
+    return;
+  }
+  const mk = ev.target.closest("[data-omark]");
+  if (mk){
+    const i = mk.dataset.omark, v = Number(mk.dataset.v);
+    orgMarks[i] = orgMarks[i] === v ? undefined : v;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-omark="' + i + '"]'), function(b){
+      b.setAttribute("aria-pressed", orgMarks[i] === Number(b.dataset.v) ? "true" : "false");
+    });
+    try { localStorage.setItem(ORG_KEY, JSON.stringify(orgMarks)); } catch(e){}
+    orgScore();
+  }
+});
+Object.keys(orgMarks).forEach(function(i){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-omark="' + i + '"]'), function(b){
+    b.setAttribute("aria-pressed", orgMarks[i] === Number(b.dataset.v) ? "true" : "false");
+  });
+});
+orgScore();
+
+/* ============================== 3. PAPER ============================== */
+
+const PAPER = [
+  {n:"1", sec:"A", marks:1, type:"mcq",
+   text:"Which component of the CPU performs calculations and logical comparisons?",
+   options:["ROM","Arithmetic Logic Unit (ALU)","Memory Data Register","Cache"], answer:1,
+   note:"The control unit coordinates; the ALU does the arithmetic."},
+  {n:"2", sec:"A", marks:1, type:"mcq",
+   text:"Which register holds the address of the next instruction to be executed?",
+   options:["Memory Address Register","Memory Data Register","Program counter","Accumulator"], answer:2,
+   note:"The MAR holds the address currently being accessed \u2014 not specifically the next instruction."},
+  {n:"3", sec:"A", marks:1, type:"mcq",
+   text:"During which stage of the fetch\u2013execute cycle does the control unit work out what an instruction means?",
+   options:["Fetch","Decode","Execute","Store"], answer:1,
+   note:"There is no \u201cstore\u201d stage. Three stages only."},
+  {n:"4", sec:"A", marks:1, type:"mcq",
+   text:"Von Neumann architecture is best described as an architecture in which:",
+   options:["instructions and data are stored in separate memories","the CPU has more than one core","instructions and data are stored in the same memory","all memory is built into the CPU"], answer:2,
+   note:"Separate memories for instructions and data is Harvard architecture \u2014 the opposite."},
+
+  {n:"5", sec:"B", marks:1, type:"written", command:"State",
+   text:"State the purpose of the CPU.",
+   ms:["It processes instructions and data"],
+   note:"\u201cThe brain of the computer\u201d scores nothing. Neither does anything about storing data."},
+  {n:"6", sec:"B", marks:3, type:"written", command:"Name",
+   text:"The fetch\u2013execute cycle has three stages. Name them, in order, and say in one line what happens at each.",
+   ms:["Fetch \u2014 the next instruction is copied from memory into the CPU",
+       "Decode \u2014 the control unit works out what the instruction means",
+       "Execute \u2014 the instruction is carried out, using the ALU if it is a calculation"],
+   note:"Three marks, three stages. Naming them in the wrong order costs you."},
+  {n:"7", sec:"B", marks:2, type:"written", command:"Describe",
+   text:"Describe what happens during the fetch stage of the fetch\u2013execute cycle.",
+   ms:["The address of the next instruction is taken from the program counter and copied into the MAR",
+       "The instruction at that address is copied from memory into the MDR, and the program counter is incremented"],
+   note:"This is the one that most often scores zero. \u201cThe CPU fetches the instruction\u201d just repeats the question \u2014 say where from and where to."},
+  {n:"8", sec:"B", marks:2, type:"written", command:"State",
+   text:"State what is held in (a) the Memory Address Register and (b) the accumulator.",
+   ms:["(a) The address of the memory location the CPU is about to read from or write to",
+       "(b) The result of a calculation or comparison carried out by the ALU"],
+   note:"MAR = Memory ADDRESS Register. Swapping MAR and MDR is the single most common lost mark on this topic."},
+  {n:"9", sec:"B", marks:2, type:"written", command:"Explain",
+   text:"Explain one way in which cache improves the performance of a CPU.",
+   ms:["Cache holds frequently used instructions and data close to the CPU",
+       "It is faster to access than RAM, so the CPU waits less and executes more instructions per second"],
+   note:"\u201cExplain\u201d wants the effect. \u201cCache is faster than RAM\u201d on its own is one mark at best."},
+  {n:"10", sec:"B", marks:2, type:"written", command:"Explain",
+   context:"Tom says: \u201cThe CPU stores all of the data on my computer.\u201d",
+   text:"Explain why Tom is wrong.",
+   ms:["The CPU processes instructions and data \u2014 it does not store them",
+       "Registers and cache hold only what is in use at that instant; data is stored in RAM while running and in secondary storage permanently"],
+   note:"Half-answers stop at \u201cthe CPU processes, it does not store\u201d. Say where the data actually lives for the second mark."},
+
+  {n:"11", sec:"C", marks:6, type:"written", command:"Describe",
+   context:"A computer is about to execute the instruction ADD 205, which adds the value stored at memory location 205 to the value in the accumulator. The address of this instruction is currently held in the program counter.",
+   text:"Describe how the registers and components of the CPU are used to fetch and execute this instruction.",
+   ms:["The address in the program counter is copied into the MAR",
+       "The program counter is incremented so it points at the following instruction",
+       "The instruction at the address in the MAR is fetched from memory into the MDR",
+       "The control unit decodes the instruction and identifies that an addition is required",
+       "The operand address 205 is placed in the MAR and the value there is fetched into the MDR",
+       "The ALU adds that value to the value in the accumulator, and the result is placed back in the accumulator"],
+   note:"Six marks means six separate transfers. This is Program B in the simulator above \u2014 step through it and you have the answer."},
+  {n:"12", sec:"C", marks:3, type:"written", command:"Explain",
+   text:"Explain why the fetch\u2013execute cycle repeats continuously for as long as a computer is switched on.",
+   ms:["A program is a list of many instructions and the CPU can only process one at a time",
+       "So the cycle repeats, fetching the next instruction each time, to work through them all",
+       "Even when the computer appears idle the operating system is still issuing instructions, so it only stops at power off"],
+   note:"Three marks, so three distinct reasons \u2014 not the same point said three ways."}
+];
+
+const SECT_TOTAL = {A:4, B:12, C:9};
+const KEY = "be-the-cpu-paper-v1";
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e){ saved = {}; }
+
+const body = document.getElementById("paper-body");
+body.innerHTML = PAPER.map(function(q){
+  const head =
+    '<div class="qhead">' +
+      '<span class="qnum">' + q.n + '</span>' +
+      '<span class="qtext">' +
+        (q.context ? '<span class="ctx">' + q.context + '</span>' : '') +
+        q.text +
+      '</span>' +
+      '<span class="tariff">[' + q.marks + (q.marks === 1 ? ' mark]' : ' marks]') +
+    '</span></div>';
+
+  let inner;
+  if (q.type === "mcq"){
+    inner = '<div class="mcq">' + q.options.map(function(o,i){
+      return '<label data-opt="' + i + '"><input type="radio" name="q' + q.n + '" value="' + i + '"> <span>' + o + '</span></label>';
+    }).join("") + '</div>';
+  } else {
+    inner = '<textarea data-q="' + q.n + '" rows="' + Math.max(2, Math.min(7, q.marks + 1)) +
+      '" placeholder="' + q.marks + (q.marks === 1 ? ' point' : ' separate points') + '\u2026" aria-label="Answer to question ' + q.n + '"></textarea>';
+  }
+
+  const scheme =
+    '<div class="ms" hidden data-ms="' + q.n + '">' +
+      '<div class="ms-label">Mark scheme \u2014 tick only what you actually wrote</div>' +
+      '<ul>' + (q.type === "mcq"
+        ? '<li><input type="checkbox" data-mark="' + q.n + '" id="m' + q.n + '-0" disabled> <label for="m' + q.n + '-0">' + q.options[q.answer] + '</label></li>'
+        : q.ms.map(function(m,i){
+            return '<li><input type="checkbox" data-mark="' + q.n + '" id="m' + q.n + '-' + i + '"> <label for="m' + q.n + '-' + i + '">' + m + '</label></li>';
+          }).join("")) +
+      '</ul>' +
+      '<div class="note"><b>Examiner\u2019s note.</b> ' + q.note + '</div>' +
+    '</div>';
+
+  return '<div class="qblock" data-q="' + q.n + '">' + head +
+    '<div class="qbody">' + inner +
+    '<button class="reveal" data-show="' + q.n + '">Show mark scheme</button>' +
+    scheme +
+    '<div class="qscore" data-score="' + q.n + '" hidden></div>' +
+    '</div></div>';
+}).join("");
+
+// restore anything typed earlier
+PAPER.forEach(function(q){
+  const v = saved[q.n];
+  if (v === undefined) return;
+  if (q.type === "mcq"){
+    const r = body.querySelector('input[name="q' + q.n + '"][value="' + v + '"]');
+    if (r) r.checked = true;
+  } else {
+    const t = body.querySelector('textarea[data-q="' + q.n + '"]');
+    if (t) t.value = v;
+  }
+});
+
+function save(){
+  const out = {};
+  PAPER.forEach(function(q){
+    if (q.type === "mcq"){
+      const r = body.querySelector('input[name="q' + q.n + '"]:checked');
+      if (r) out[q.n] = Number(r.value);
+    } else {
+      const t = body.querySelector('textarea[data-q="' + q.n + '"]');
+      if (t && t.value.trim()) out[q.n] = t.value;
+    }
+  });
+  try { localStorage.setItem(KEY, JSON.stringify(out)); } catch(e){}
+}
+body.addEventListener("input", function(){ save(); tally(); });
+
+// reveal a mark scheme, and for an MCQ mark it there and then
+body.addEventListener("click", function(ev){
+  const btn = ev.target.closest(".reveal[data-show]");
+  if (!btn) return;
+  const n = btn.dataset.show;
+  const ms = body.querySelector('.ms[data-ms="' + n + '"]');
+  const open = !ms.hidden;
+  ms.hidden = open;
+  btn.textContent = open ? "Show mark scheme" : "Hide mark scheme";
+  const q = PAPER.find(function(x){ return x.n === n; });
+
+  if (!open && q.type === "mcq"){
+    const chosen = body.querySelector('input[name="q' + n + '"]:checked');
+    const got = chosen && Number(chosen.value) === q.answer;
+    Array.prototype.forEach.call(body.querySelectorAll('.qblock[data-q="' + n + '"] .mcq label'), function(l){
+      const i = Number(l.dataset.opt);
+      l.classList.toggle("right", i === q.answer);
+      l.classList.toggle("wrong", !!chosen && i === Number(chosen.value) && i !== q.answer);
+    });
+    const box = body.querySelector('input[data-mark="' + n + '"]');
+    box.checked = !!got;
+  }
+  tally();
+});
+
+body.addEventListener("change", function(ev){
+  if (ev.target.matches('input[data-mark]')) tally();
+});
+
+function tally(){
+  let any = false;
+  const per = {};
+  PAPER.forEach(function(q){
+    const boxes = Array.prototype.slice.call(body.querySelectorAll('input[data-mark="' + q.n + '"]'));
+    const ms = body.querySelector('.ms[data-ms="' + q.n + '"]');
+    const shown = ms && !ms.hidden;
+    const got = boxes.filter(function(b){ return b.checked; }).length;
+    const earned = q.type === "mcq" ? (got ? q.marks : 0) : got;
+    per[q.n] = {earned: earned, shown: shown};
+    if (shown) any = true;
+    const sc = body.querySelector('[data-score="' + q.n + '"]');
+    sc.hidden = !shown;
+    sc.textContent = earned + " / " + q.marks + " marks";
+    sc.style.color = earned === q.marks ? "var(--good)" : (earned === 0 ? "var(--miss)" : "var(--ink-3)");
+  });
+
+  const res = document.getElementById("result");
+  res.hidden = !any;
+  if (!any) return;
+
+  const tot = {A:0,B:0,C:0};
+  const dropped = [];
+  PAPER.forEach(function(q){
+    tot[q.sec] += per[q.n].earned;
+    if (per[q.n].shown && per[q.n].earned < q.marks){
+      dropped.push({n:q.n, lost:q.marks - per[q.n].earned, text:q.text, note:q.note});
+    }
+  });
+  const total = tot.A + tot.B + tot.C;
+  const pc = Math.round(total / 25 * 100);
+
+  document.getElementById("total").innerHTML = total + "<span>/25</span>";
+  document.getElementById("pcent").textContent = pc + "%";
+  document.getElementById("sa").textContent = tot.A + "/4";
+  document.getElementById("sb").textContent = tot.B + "/12";
+  document.getElementById("sc").textContent = tot.C + "/9";
+  document.getElementById("verdict").textContent =
+    pc >= 80 ? "Green. This spec point is secure."
+    : pc >= 55 ? "Amber. You know it; the wording is costing you."
+    : "Red for now. Read the sentences again and re-sit it tomorrow.";
+
+  const rl = document.getElementById("redlist");
+  if (!dropped.length){
+    rl.innerHTML = '<p class="clear">Nothing dropped on the questions you have marked. Mark the rest, then move on to 1.1.2.</p>';
+  } else {
+    rl.innerHTML = "<ul>" + dropped.map(function(d){
+      return "<li><b>Q" + d.n + " &mdash; " + d.lost + (d.lost === 1 ? " mark" : " marks") + " lost.</b> " + d.note + "</li>";
+    }).join("") + "</ul>";
+  }
+}
+
+/* timer */
+var left = 30 * 60, ticking = false, handle = null;
+const tEl = document.getElementById("timer"), tBtn = document.getElementById("timer-btn");
+function paint(){
+  const m = Math.floor(Math.abs(left) / 60), s = Math.abs(left) % 60;
+  tEl.textContent = (left < 0 ? "+" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  tEl.classList.toggle("over", left <= 0);
+}
+tBtn.addEventListener("click", function(){
+  if (ticking){
+    clearInterval(handle); ticking = false; tBtn.textContent = "Resume";
+  } else {
+    ticking = true; tBtn.textContent = "Pause";
+    handle = setInterval(function(){ left--; paint(); }, 1000);
+  }
+});
+paint();
+tally();
+
+})();
+</script>

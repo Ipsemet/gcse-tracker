@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "gcse-hq",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--prefix",
+        "app"
+      ],
+      "port": 5173
+    },
+    {
+      "name": "revision-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8123",
+        "--directory",
+        "content/revision"
+      ],
+      "port": 8123,
+      "autoPort": false
+    }
+  ]
+}

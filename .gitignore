@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.vite/
+app/public/content/
+
+# Personal and third-party material — never commit.
+# These stay on disk; they are kept out of git so the repo can be made public
+# (GitHub Pages needs a public repo on the free plan).
+school scans/
+OLD SYSTEM/
+docs/reference-exam-boards-*.pdf
+
+# School-specific detail and contacts — keep local.
+LOCAL.md
+
+# Drafts to school staff — names the school and teachers.
+correspondence/
