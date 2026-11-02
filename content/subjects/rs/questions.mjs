@@ -407,7 +407,7 @@ export default [
     source: 'authored', sourceRef: SCHOOL,
   },
   {
-    id: 'rs-q-0035', points: ['3.2.1.1c'], type: 'extended', marks: 4, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0035', points: ['3.2.1.1c'], type: 'extended', variant: 'christianity', marks: 4, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two contrasting Christian beliefs about contraception.',
     markScheme: four(
       'the Catholic Church only allows natural methods',
@@ -483,7 +483,7 @@ export default [
     source: 'authored', sourceRef: SCHOOL,
   },
   {
-    id: 'rs-q-0042', points: ['3.2.1.2d', '3.2.1.2e'], type: 'extended', marks: 4, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0042', points: ['3.2.1.2d', '3.2.1.2e'], type: 'extended', variant: 'christianity', marks: 4, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two contrasting Christian beliefs about the role of women in the Church.',
     markScheme: four(
       'the Catholic Church allows only men to be priests',
@@ -528,7 +528,7 @@ export default [
     source: 'authored', sourceRef: SCHOOL,
   },
   {
-    id: 'rs-q-0046', points: ['3.2.2.1f'], type: 'mcq', marks: 1, difficulty: 2, commandWord: 'Which',
+    id: 'rs-q-0046', points: ['3.2.2.1f'], type: 'mcq', variant: 'islam', marks: 1, difficulty: 2, commandWord: 'Which',
     stem: 'Which one of the following is the greater jihad?',
     options: [
       { id: 'a', text: 'A war to defend Islam', correct: false, why: 'That is lesser jihad.' },
@@ -539,7 +539,7 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0047', points: ['3.2.2.1e'], type: 'short', marks: 2, difficulty: 2, commandWord: 'Give',
+    id: 'rs-q-0047', points: ['3.2.2.1e'], type: 'short', variant: 'christianity', marks: 2, difficulty: 2, commandWord: 'Give',
     stem: 'Give two conditions of a just war.',
     markScheme: [
       { text: 'Just cause', marks: 1, alternatives: ['just cause', 'proper authority', 'legitimate authority'] },
@@ -571,7 +571,7 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0050', points: ['3.2.2.1e'], type: 'extended', marks: 5, difficulty: 3, commandWord: 'Explain',
+    id: 'rs-q-0050', points: ['3.2.2.1e'], type: 'extended', variant: 'christianity', marks: 5, difficulty: 3, commandWord: 'Explain',
     stem: 'Explain two conditions of the just war theory. Refer to sacred writings or another source of religious belief and teaching in your answer.',
     markScheme: five(
       'there must be a just cause',
@@ -694,7 +694,7 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0061', points: ['3.2.2.1b'], type: 'extended', marks: 4, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0061', points: ['3.2.2.1b'], type: 'extended', variant: 'christianity', marks: 4, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two contrasting Christian beliefs about violent protest.',
     markScheme: four(
       'most Christians believe protest must be peaceful',

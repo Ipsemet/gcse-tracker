@@ -199,3 +199,32 @@ export const shuffle = <T>(items: T[]): T[] => {
   }
   return out
 }
+
+/** "all" — or no choice made — shows every topic, card and question. */
+export const ALL_VARIANTS = 'all'
+
+/**
+ * Narrow a subject to one variant choice (e.g. RS → Islam only). Topics, cards
+ * and questions tagged with a different choice are removed, along with any
+ * card or question whose spec points all sit in removed topics. Untagged items
+ * always stay. Everything downstream — topic list, quiz, flashcards, planner,
+ * mastery — reads the narrowed subject, so the choice applies everywhere.
+ */
+export const applyVariant = (content: SubjectContent, choice: string | undefined): SubjectContent => {
+  if (!choice || choice === ALL_VARIANTS || !content.subject.variants) return content
+  const keep = (v?: string) => !v || v === choice
+
+  const units = content.subject.units
+    .map((u) => ({ ...u, topics: u.topics.filter((t) => keep(t.variant)) }))
+    .filter((u) => u.topics.length > 0)
+  const livePoints = new Set(units.flatMap((u) => u.topics.flatMap((t) => t.points.map((p) => p.id))))
+  const live = (ids: string[]) => ids.some((id) => livePoints.has(id))
+  const liveTopics = new Set(units.flatMap((u) => u.topics.map((t) => t.id)))
+
+  return {
+    subject: { ...content.subject, units },
+    notes: content.notes.filter((n) => liveTopics.has(n.topicId)),
+    flashcards: content.flashcards.filter((c) => keep(c.variant) && live(c.specPointIds)),
+    questions: content.questions.filter((q) => keep(q.variant) && live(q.specPointIds)),
+  }
+}

@@ -39,6 +39,23 @@ Spec point **ids and codes are generated** — `1.1.1` + the first point becomes
 Set `confidence: 'confirmed'` only once the unit titles, topic titles and statements have been
 checked line-by-line against the official specification PDF.
 
+## Subject variants (a choice for the whole subject)
+
+Some subjects make Harry choose: which religion in RS, which set text in English Literature. Declare
+the choice in `spec.mjs`, then tag the topics, cards and questions that only belong to one option:
+
+```js
+variants: { label: 'Revising for', choices: [{ id: 'christianity', label: 'Christianity' }, { id: 'islam', label: 'Islam' }] },
+// on a topic, flashcard or question:
+variant: 'islam',
+```
+
+The subject page shows the choices as radio buttons, plus "Both" (or "All"). Picking one hides
+everything tagged for the others from the topic list, quizzes, flashcards and the planner. Untagged
+items always show, so only tag something that is about one option alone; leave comparisons and
+definitions untagged. The build fails on a tag that is not one of the declared choices. The choice
+is stored per device in the browser, and mastery records are untouched when it changes.
+
 ## Notes, flashcards and questions
 
 These files are optional and reference spec points by **bare code** (`'1.1.1a'`); the build

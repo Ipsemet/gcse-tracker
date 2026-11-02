@@ -47,6 +47,8 @@ export interface SpecTopic {
   /** e.g. "1.1.1" */
   code: string
   title: string
+  /** Only relevant to this subject choice (see Subject.variants). */
+  variant?: string
   points: SpecPoint[]
 }
 
@@ -112,6 +114,17 @@ export interface Subject {
   gradeBoundaries?: GradeBoundarySet[]
   /** Subject-specific notes: command words, formula sheets, NEA requirements. */
   examNotes?: string[]
+  /**
+   * A choice made for the whole subject — which religion, which set text.
+   * Topics, cards and questions tagged with a `variant` show only when that
+   * choice (or "all") is selected.
+   */
+  variants?: SubjectVariants
+}
+
+export interface SubjectVariants {
+  label: string
+  choices: { id: string; label: string }[]
 }
 
 /** The lightweight index loaded on boot; full subjects are fetched on demand. */

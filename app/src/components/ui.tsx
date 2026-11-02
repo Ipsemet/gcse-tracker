@@ -131,6 +131,27 @@ export const ConfidencePicker = ({ value, onChange }: {
   </div>
 )
 
+/** One-of-several choice for a whole subject (e.g. which religion). Real radio inputs, styled as pills. */
+export const VariantPicker = ({ name, label, choices, value, onChange }: {
+  name: string
+  label: string
+  choices: { id: string; label: string }[]
+  value: string
+  onChange: (id: string) => void
+}) => (
+  <fieldset className="variant-picker">
+    <legend className="small dim">{label}</legend>
+    <div className="btn-group">
+      {choices.map((c) => (
+        <label key={c.id} className={`variant-option${value === c.id ? ' is-on' : ''}`}>
+          <input type="radio" name={name} value={c.id} checked={value === c.id} onChange={() => onChange(c.id)} />
+          {c.label}
+        </label>
+      ))}
+    </div>
+  </fieldset>
+)
+
 export const SubjectBadge = ({ icon, colour, size = 34 }: { icon: string; colour: string; size?: number }) => (
   <div style={{
     width: size, height: size, borderRadius: size / 3.4, flexShrink: 0,

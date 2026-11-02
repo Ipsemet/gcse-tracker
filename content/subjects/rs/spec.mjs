@@ -41,6 +41,13 @@ export default {
         '96 marks plus 6 for spelling, punctuation and grammar. Section A: the two religions. Section B: both themes. Linear — one paper at the end of the course.',
     },
   ],
+  variants: {
+    label: 'Revising for',
+    choices: [
+      { id: 'christianity', label: 'Christianity' },
+      { id: 'islam', label: 'Islam' },
+    ],
+  },
   examNotes: [
     'One paper, 1h45, the whole qualification. Sat in Year 10 — summer 2027.',
     'Section A is beliefs and teachings only. Practices are NOT on the short course.',
@@ -57,6 +64,7 @@ export default {
         {
           code: '3.1.1.1',
           title: 'Christianity: key beliefs',
+          variant: 'christianity',
           points: [
             {
               statement: 'The nature of God: God as omnipotent, loving and just, and the problem of evil and suffering',
@@ -90,6 +98,7 @@ export default {
         {
           code: '3.1.1.2',
           title: 'Christianity: Jesus Christ and salvation',
+          variant: 'christianity',
           points: [
             {
               statement: 'Beliefs and teachings about the incarnation and Jesus as the Son of God',
@@ -121,6 +130,7 @@ export default {
         {
           code: '3.1.2.1',
           title: 'Islam: key beliefs',
+          variant: 'islam',
           points: [
             {
               statement: 'The six articles of faith in Sunni Islam and the five roots of Usul ad-Din in Shi\'a Islam, including key similarities and differences',
@@ -163,6 +173,7 @@ export default {
         {
           code: '3.1.2.2',
           title: 'Islam: authority',
+          variant: 'islam',
           points: [
             {
               statement: 'Risalah (prophethood), including the role and importance of Adam, Ibrahim and Muhammad',

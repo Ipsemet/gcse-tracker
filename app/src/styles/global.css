@@ -331,3 +331,16 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Subject variant picker (e.g. RS: which religion) */
+.variant-picker { border: 0; margin: 0; padding: 0; min-width: 0; }
+.variant-picker legend { padding: 0; margin-bottom: 8px; }
+.variant-option {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 8px 14px; border-radius: 999px; font-size: 0.88rem; font-weight: 600;
+  background: var(--surface-2); border: 1px solid var(--border-bright); color: var(--text-dim);
+}
+.variant-option:hover { border-color: var(--accent-dim); color: var(--text); }
+.variant-option.is-on { background: var(--accent-dim); border-color: var(--accent); color: var(--accent-bright); }
+.variant-option input { accent-color: var(--accent); margin: 0; }
+.variant-option:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }

@@ -50,6 +50,7 @@ function expandSubject(raw) {
         id: `${prefix}.${t.code}`,
         code: t.code,
         title: t.title,
+        ...(t.variant ? { variant: t.variant } : {}),
         points: t.points.map((p, i) => {
           const code = pointCode(t.code, i)
           const id = `${prefix}.${code}`
@@ -99,6 +100,13 @@ async function buildSubject(dir) {
   delete subject.__pointIds
   const prefix = slug(subject.specCode)
 
+  // A variant tag must name one of the subject's declared choices.
+  const variantIds = new Set((subject.variants?.choices ?? []).map((c) => c.id))
+  const checkVariant = (v, where) => {
+    if (v && !variantIds.has(v)) fail(where, `variant "${v}" is not one of the subject's variants.choices`)
+  }
+  for (const u of subject.units) for (const t of u.topics) checkVariant(t.variant, `${dir}/spec.mjs:${t.code}`)
+
   // --- Topic notes -----------------------------------------------------------
   const rawNotes = (await loadOptional(join(base, 'notes.mjs'))) ?? []
   const topicByCode = new Map()
@@ -146,6 +154,7 @@ async function buildSubject(dir) {
       return null
     }
     if (cardIds.has(r.data.id)) fail(where, 'duplicate flashcard id')
+    checkVariant(r.data.variant, where)
     cardIds.add(r.data.id)
     const { points, ...rest } = r.data
     return { ...rest, subjectId: subject.id, specPointIds: resolvePoints(points, prefix, pointIds, where) }
@@ -163,6 +172,7 @@ async function buildSubject(dir) {
     }
     const d = r.data
     if (qIds.has(d.id)) fail(where, 'duplicate question id')
+    checkVariant(d.variant, where)
     qIds.add(d.id)
 
     // Marks must be reachable from the mark scheme, or the score is meaningless.

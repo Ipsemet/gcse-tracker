@@ -1,7 +1,7 @@
 /** Progress store: mastery, spaced repetition, attempts, sessions, profile, plan. */
 import { create } from 'zustand'
 import type {
-  Attempt, MasteryRecord, PlanDay, Profile, RecallGrade, Settings, SrCard, StudySession,
+  Attempt, MasteryRecord, PlanDay, PlanSlot, Profile, RecallGrade, Settings, SrCard, StudySession,
 } from '@/types/progress'
 import type { Question } from '@/types/content'
 import type { Subject } from '@/types/spec'
@@ -197,6 +197,26 @@ export const useProgress = create<ProgressState>((set, get) => ({
     const { settings, mastery, srCards, plan } = get()
     const next = new Map(plan)
     let changed = false
+
+    // Drop planned work on topics that are no longer in scope — e.g. after RS is
+    // switched to Islam only. A day with nothing done yet is rebuilt below; a day
+    // already under way keeps what is done and loses only the out-of-scope slots.
+    const inScope = new Set(subjects.flatMap((s) => s.units.flatMap((u) => u.topics.map((t) => t.id))))
+    const loaded = new Set(subjects.map((s) => s.id))
+    const stale = (slot: PlanSlot) =>
+      !slot.done && loaded.has(slot.subjectId) && slot.topicIds.some((t) => !inScope.has(t))
+    for (const day of [...next.values()]) {
+      if (day.date < today() || !day.slots.some(stale)) continue
+      if (!day.slots.some((s) => s.done)) {
+        next.delete(day.date)
+        await db.deletePlanDay(day.date)
+      } else {
+        const trimmed = { ...day, slots: day.slots.filter((s) => !stale(s)) }
+        next.set(day.date, trimmed)
+        await db.putPlanDay(trimmed)
+      }
+      changed = true
+    }
 
     // Topics already spoken for across the horizon, so successive days advance
     // through the specification instead of all picking the same weakest topic.

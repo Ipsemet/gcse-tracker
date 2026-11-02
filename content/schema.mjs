@@ -13,6 +13,7 @@ export const zSpecPoint = z.object({
 export const zSpecTopic = z.object({
   code: z.string().regex(/^[0-9]+(\.[0-9]+)*$/),
   title: z.string().min(2),
+  variant: z.string().optional(),
   points: z.array(zSpecPoint).min(1),
 })
 
@@ -61,6 +62,13 @@ export const zSubject = z.object({
   units: z.array(zSpecUnit).min(1),
   gradeBoundaries: z.array(zGradeBoundarySet).optional(),
   examNotes: z.array(z.string()).optional(),
+  // A choice the student makes for the whole subject — e.g. which religion (RS)
+  // or which set text (English). Topics, cards and questions tagged with a
+  // `variant` only show when that choice, or "all", is selected.
+  variants: z.object({
+    label: z.string(),
+    choices: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), label: z.string() })).min(2),
+  }).optional(),
 })
 
 export const zResource = z.object({
@@ -111,6 +119,7 @@ export const zFlashcard = z.object({
   id: z.string(),
   points: z.array(z.string()).min(1),
   kind: z.enum(['definition', 'recall', 'calculation', 'code', 'compare', 'list']),
+  variant: z.string().optional(),
   front: z.string(),
   back: z.string(),
   hint: z.string().optional(),
@@ -137,6 +146,7 @@ export const zQuestion = z.object({
   paper: z.string().optional(),
   type: z.enum(['mcq', 'multi', 'short', 'extended', 'calculation', 'code', 'trace', 'match', 'order']),
   commandWord: z.string().optional(),
+  variant: z.string().optional(),
   marks: z.number().int().positive(),
   difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   context: z.string().optional(),

@@ -70,6 +70,8 @@ export interface Flashcard {
   subjectId: string
   specPointIds: string[]
   kind: FlashcardKind
+  /** Only relevant to this subject choice (see Subject.variants). */
+  variant?: string
   front: string
   back: string
   hint?: string
@@ -126,6 +128,8 @@ export interface Question {
   paper?: string
   type: QuestionType
   commandWord?: CommandWord
+  /** Only relevant to this subject choice (see Subject.variants). */
+  variant?: string
   marks: number
   difficulty: 1 | 2 | 3
   /** Scenario or preamble shared by the question. */

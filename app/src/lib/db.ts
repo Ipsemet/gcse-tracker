@@ -105,6 +105,9 @@ export const putPlanDay = async (day: PlanDay) => {
 export const getPlanRange = async (from: string, to: string) =>
   (await db()).getAll('plan', IDBKeyRange.bound(from, to))
 export const getAllPlanDays = async () => (await db()).getAll('plan')
+export const deletePlanDay = async (date: string) => {
+  await (await db()).delete('plan', date)
+}
 
 // --- Key/value (profile, settings) -------------------------------------------
 
