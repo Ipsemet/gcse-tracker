@@ -41,6 +41,25 @@ const aqaSpec = {
   free: true,
 }
 
+/**
+ * Save My Exams revision notes for AQA RS A. Links only — their notes are their
+ * copyright and are not reproduced here. Every URL was taken from the links on
+ * savemyexams.com's own AQA RS A revision-notes index (sent by Rob, 2 Nov 2026),
+ * so they are marked verified. Free to read with a free account.
+ */
+const SME = 'https://www.savemyexams.com/gcse/religious-studies/aqa/a/18/revision-notes/'
+let smeN = 100
+const sme = (title, path) => ({
+  id: `rs-r-0${smeN++}`,
+  title: `Save My Exams — ${title}`,
+  description: 'Revision notes written for AQA RS A. Free to read with a free account.',
+  url: SME + path,
+  provider: 'Save My Exams',
+  kind: 'revision-guide',
+  verified: true,
+  free: true,
+})
+
 const evalTip = {
   type: 'callout',
   variant: 'exam',
@@ -165,7 +184,13 @@ export default [
       'Saying Christians believe in three Gods. One God, three persons.',
       'Treating all Christians as creationists. Most read Genesis non-literally.',
     ],
-    resources: [bitesizeRs, aqaSpec],
+    resources: [
+      bitesizeRs, aqaSpec,
+      sme('The nature of God', '1-christianity/1-1-christianity-key-beliefs-the-nature-of-god/1-1-2-the-nature-of-god/'),
+      sme('The Trinity', '1-christianity/1-1-christianity-key-beliefs-the-nature-of-god/1-1-3-the-trinity/'),
+      sme('Christian beliefs about creation', '1-christianity/1-2-christianity-key-beliefs-creation/1-2-1-christian-beliefs-about-the-creation-of-the-world/'),
+      sme('Christian beliefs about the afterlife', '1-christianity/1-3-christianity-key-beliefs-salvation/1-3-1-christian-beliefs-about-the-afterlife/'),
+    ],
   },
 
   // ===========================================================================
@@ -273,7 +298,12 @@ export default [
       'Mixing up resurrection (rising from the dead) and ascension (going up to heaven 40 days later).',
       'Writing "Jesus was half God and half human". Fully God AND fully human.',
     ],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme('Resurrection of Jesus and salvation', '1-christianity/1-3-christianity-key-beliefs-salvation/1-3-2-resurrection-of-jesus-and-salvation/'),
+      sme('The role of Jesus in salvation', '1-christianity/1-3-christianity-key-beliefs-salvation/1-3-3-christian-beliefs-on-the-role-of-jesus-in-salvation/'),
+      sme('Salvation in Christianity', '1-christianity/1-3-christianity-key-beliefs-salvation/1-3-4-salvation-in-christianity/'),
+    ],
   },
 
   // ===========================================================================
@@ -404,7 +434,15 @@ export default [
       'Muddling the two lists. Angels and holy books are Sunni articles; justice and the imamate are Shi\'a roots.',
       'Getting Jibril and Mika\'il the wrong way round. Jibril brought the Qur\'an.',
     ],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme("Sunni and Shi'a core beliefs", '2-islam/2-1-islam-key-beliefs-faith/2-1-2-difference-between-sunnii-and-shia-core-beliefs/'),
+      sme('Tawhid', '2-islam/2-2-islam-key-beliefs-the-nature-of-allah/2-2-1-tawhid/'),
+      sme('The nature of Allah', '2-islam/2-2-islam-key-beliefs-the-nature-of-allah/2-2-2-the-nature-of-allah/'),
+      sme('Angels in Islam', '2-islam/2-2-islam-key-beliefs-the-nature-of-allah/2-2-3-angels-in-islam/'),
+      sme('Predestination', '2-islam/2-2-islam-key-beliefs-the-nature-of-allah/2-2-4-muslim-belief-in-predestination/'),
+      sme('Akhirah', '2-islam/2-2-islam-key-beliefs-the-nature-of-allah/2-2-5-akhirah/'),
+    ],
   },
 
   // ===========================================================================
@@ -490,7 +528,13 @@ export default [
     commonMistakes: [
       'Saying Muhammad wrote the Qur\'an. It was revealed to him; Muslims believe it is God\'s word.',
     ],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme('Risalah', '2-islam/2-3-islam-key-beliefs-authority/2-3-1-risalah/'),
+      sme("The Qur'an", '2-islam/2-3-islam-key-beliefs-authority/2-3-2-the-quran/'),
+      sme('Holy books in Islam', '2-islam/2-3-islam-key-beliefs-authority/2-3-3-holy-books-in-islam/'),
+      sme("The imamate in Shi'a Islam", '2-islam/2-3-islam-key-beliefs-authority/2-3-4-the-imamate-in-shia-islam/'),
+    ],
   },
 
   // ===========================================================================
@@ -627,7 +671,13 @@ export default [
     commonMistakes: [
       'Saying "all Christians" believe X. Name the group — Catholic, Church of England, liberal.',
     ],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme('Human sexuality', '8-relationships-and-families/8-1-religion-and-human-sexuality/8-1-1-human-sexuality/'),
+      sme('Contraception and family planning', '8-relationships-and-families/8-1-religion-and-human-sexuality/8-1-2-religious-beliefs-about-contraception-and-family-planning/'),
+      sme('The nature and purpose of marriage', '8-relationships-and-families/8-2-religion-and-marriage/8-2-1-what-is-the-nature-and-purpose-of-marriage/'),
+      sme('Divorce and remarriage', '8-relationships-and-families/8-3-religion-and-divorce/8-3-1-religious-views-on-divorce-and-remarriage/'),
+    ],
   },
 
   // ===========================================================================
@@ -729,7 +779,13 @@ export default [
     commonMistakes: [
       'Confusing prejudice (a thought or attitude) with discrimination (an action).',
     ],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme('The nature of families', '8-relationships-and-families/8-4-religion-and-the-nature-of-families/8-4-1-the-nature-of-families/'),
+      sme('The purpose of families', '8-relationships-and-families/8-4-religion-and-the-nature-of-families/8-4-2-the-purpose-of-families/'),
+      sme('Contemporary family issues', '8-relationships-and-families/8-4-religion-and-the-nature-of-families/8-4-3-contemporary-family-issues/'),
+      sme('The roles of men and women', '8-relationships-and-families/8-5-religion-and-the-roles-of-men-and-women/8-5-1-the-roles-of-men-and-women/'),
+    ],
   },
 
   // ===========================================================================
@@ -867,7 +923,17 @@ export default [
       'Calling greater jihad "holy war". Holy war is lesser jihad.',
       'Saying Islam is a pacifist religion. It values peace but allows defensive war.',
     ],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme('Peace and justice', '11-peace-and-justice/11-1-peace-and-justice/11-1-1-religion-peace-and-justice/'),
+      sme('Forgiveness and reconciliation', '11-peace-and-justice/11-2-forgiveness-and-reconciliation/11-2-1-forgiveness-and-reconciliation/'),
+      sme('Religion and violence', '11-peace-and-justice/11-3-religion-and-violence/11-3-1-religion-and-violence/'),
+      sme('Religion and terrorism', '11-peace-and-justice/11-4-religion-and-attitudes-to-terrorism/11-4-2-religion-and-terrorism/'),
+      sme('Reasons for war', '11-peace-and-justice/11-5-religion-and-war/11-5-1-reasons-for-war/'),
+      sme('The just war theory', '11-peace-and-justice/11-5-religion-and-war/11-5-4-the-just-war-theory/'),
+      sme('Holy war', '11-peace-and-justice/11-5-religion-and-war/11-5-5-what-is-holy-war/'),
+      sme('Pacifism', '11-peace-and-justice/11-6-religion-and-peace/11-6-1-what-is-pacifism/'),
+    ],
   },
 
   // ===========================================================================
@@ -944,6 +1010,12 @@ export default [
       'Learn ONE organisation in detail — name, what it does, and the teaching behind it. That is a full 5-marker.',
     ],
     commonMistakes: [],
-    resources: [bitesizeRs],
+    resources: [
+      bitesizeRs,
+      sme('Religion as a cause of war', '11-peace-and-justice/11-5-religion-and-war/11-5-6-religion-as-a-cause-of-war-and-violence/'),
+      sme('Nuclear war', '11-peace-and-justice/11-5-religion-and-war/11-5-3-nuclear-war/'),
+      sme('Religion and peacemaking', '11-peace-and-justice/11-6-religion-and-peace/11-6-2-religion-and-peacemaking/'),
+      sme('Helping victims of war', '11-peace-and-justice/11-6-religion-and-peace/11-6-3-helping-victims-of-war/'),
+    ],
   },
 ]

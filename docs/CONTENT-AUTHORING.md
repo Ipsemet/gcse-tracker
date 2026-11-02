@@ -56,6 +56,12 @@ items always show, so only tag something that is about one option alone; leave c
 definitions untagged. The build fails on a tag that is not one of the declared choices. The choice
 is stored per device in the browser, and mastery records are untouched when it changes.
 
+Alongside it, every subject page has a **Focus on** list: Harry ticks the topics in his next test or
+mock and the same narrowing applies. Nothing needs authoring for that. Both can be set by a link,
+using topic codes as printed on the spec:
+
+    https://ipsemet.github.io/gcse-tracker/#/subject/rs?variant=islam&topics=3.1.2.1,3.1.2.2,3.2.1.1,3.2.1.2
+
 ## Notes, flashcards and questions
 
 These files are optional and reference spec points by **bare code** (`'1.1.1a'`); the build

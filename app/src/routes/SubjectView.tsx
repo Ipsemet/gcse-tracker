@@ -2,10 +2,10 @@ import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useSubject } from '@/lib/hooks'
 import { useProgress } from '@/store/useProgress'
-import { Bar, Card, ConfidenceFlag, Loading, Notice, Pill, RagDot, Ring, Stat, SubjectBadge, VariantPicker } from '@/components/ui'
+import { Bar, Card, ConfidenceFlag, Loading, Notice, Pill, RagDot, Ring, Stat, SubjectBadge } from '@/components/ui'
+import RevisingFor from '@/components/RevisingFor'
 import { rag, summariseSubject, summariseTopic, estimateGrade } from '@/lib/mastery'
-import { ALL_VARIANTS, cardsForTopic, noteForTopic, questionsForTopic } from '@/lib/content'
-import { useContent } from '@/store/useContent'
+import { cardsForTopic, noteForTopic, questionsForTopic } from '@/lib/content'
 import { formatMinutes } from '@/lib/date'
 
 export default function SubjectView() {
@@ -13,8 +13,6 @@ export default function SubjectView() {
   const content = useSubject(subjectId)
   const mastery = useProgress((s) => s.mastery)
   const [openUnits, setOpenUnits] = useState<Set<string>>(new Set())
-  const variant = useContent((s) => (subjectId ? s.variants[subjectId] : undefined)) ?? ALL_VARIANTS
-  const setVariant = useContent((s) => s.setVariant)
 
   const summary = useMemo(
     () => (content ? summariseSubject(content.subject, mastery) : null),
@@ -54,25 +52,7 @@ export default function SubjectView() {
         </div>
       </div>
 
-      {subject.variants ? (
-        <Card>
-          <VariantPicker
-            name={`variant-${subject.id}`}
-            label={subject.variants.label}
-            choices={[
-              { id: ALL_VARIANTS, label: subject.variants.choices.length === 2 ? 'Both' : 'All' },
-              ...subject.variants.choices,
-            ]}
-            value={variant}
-            onChange={(v) => setVariant(subject.id, v)}
-          />
-          <div className="tiny muted" style={{ marginTop: 10 }}>
-            {variant === ALL_VARIANTS
-              ? 'Showing everything.'
-              : `${subject.variants.choices.find((c) => c.id === variant)?.label ?? variant} only. Everything else is hidden from the topic list, quizzes, flashcards and your plan. Switch back any time — your progress is kept.`}
-          </div>
-        </Card>
-      ) : null}
+      <RevisingFor subjectId={subject.id} />
 
       {subject.confidence !== 'confirmed' && subject.confidenceNote ? (
         <Notice variant="warn">{subject.confidenceNote}</Notice>

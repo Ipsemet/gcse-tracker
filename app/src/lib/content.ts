@@ -203,28 +203,44 @@ export const shuffle = <T>(items: T[]): T[] => {
 /** "all" — or no choice made — shows every topic, card and question. */
 export const ALL_VARIANTS = 'all'
 
-/**
- * Narrow a subject to one variant choice (e.g. RS → Islam only). Topics, cards
- * and questions tagged with a different choice are removed, along with any
- * card or question whose spec points all sit in removed topics. Untagged items
- * always stay. Everything downstream — topic list, quiz, flashcards, planner,
- * mastery — reads the narrowed subject, so the choice applies everywhere.
- */
-export const applyVariant = (content: SubjectContent, choice: string | undefined): SubjectContent => {
-  if (!choice || choice === ALL_VARIANTS || !content.subject.variants) return content
-  const keep = (v?: string) => !v || v === choice
+/** Topics left once a variant choice (e.g. RS → Islam) is applied — what the focus picker offers. */
+export const topicsForVariant = (subject: Subject, choice: string | undefined): SpecTopic[] => {
+  const all = subject.units.flatMap((u) => u.topics)
+  if (!choice || choice === ALL_VARIANTS || !subject.variants) return all
+  return all.filter((t) => !t.variant || t.variant === choice)
+}
 
+/**
+ * Narrow a subject to what Harry is revising for right now:
+ *   - `variant` — a whole-subject choice such as RS → Islam only
+ *   - `focus`   — topic ids ticked for an upcoming test or mock
+ * Topics outside either are removed, and so are cards, questions and notes that
+ * only touch removed topics. A focus that leaves nothing (e.g. it named only
+ * Christianity topics and Islam is now chosen) is ignored rather than emptying
+ * the subject. Everything downstream — topic list, quiz, flashcards, planner,
+ * mastery — reads the narrowed subject, so both choices apply everywhere.
+ */
+export const narrowContent = (
+  content: SubjectContent,
+  { variant, focus }: { variant?: string; focus?: string[] },
+): SubjectContent => {
+  const byVariant = new Set(topicsForVariant(content.subject, variant).map((t) => t.id))
+  const focused = (focus ?? []).filter((id) => byVariant.has(id))
+  const keepTopic = focused.length > 0 ? new Set(focused) : byVariant
+  const variantOn = !!variant && variant !== ALL_VARIANTS && !!content.subject.variants
+  if (!variantOn && focused.length === 0) return content
+
+  const keepTagged = (v?: string) => !variantOn || !v || v === variant
   const units = content.subject.units
-    .map((u) => ({ ...u, topics: u.topics.filter((t) => keep(t.variant)) }))
+    .map((u) => ({ ...u, topics: u.topics.filter((t) => keepTopic.has(t.id)) }))
     .filter((u) => u.topics.length > 0)
   const livePoints = new Set(units.flatMap((u) => u.topics.flatMap((t) => t.points.map((p) => p.id))))
   const live = (ids: string[]) => ids.some((id) => livePoints.has(id))
-  const liveTopics = new Set(units.flatMap((u) => u.topics.map((t) => t.id)))
 
   return {
     subject: { ...content.subject, units },
-    notes: content.notes.filter((n) => liveTopics.has(n.topicId)),
-    flashcards: content.flashcards.filter((c) => keep(c.variant) && live(c.specPointIds)),
-    questions: content.questions.filter((q) => keep(q.variant) && live(q.specPointIds)),
+    notes: content.notes.filter((n) => keepTopic.has(n.topicId)),
+    flashcards: content.flashcards.filter((c) => keepTagged(c.variant) && live(c.specPointIds)),
+    questions: content.questions.filter((q) => keepTagged(q.variant) && live(q.specPointIds)),
   }
 }

@@ -3,6 +3,7 @@ import { NavLink, Route, Routes, Navigate } from 'react-router-dom'
 import { useProgress } from '@/store/useProgress'
 import { useContent } from '@/store/useContent'
 import { Loading, Notice } from '@/components/ui'
+import UpdateButton from '@/components/UpdateButton'
 import Dashboard from '@/routes/Dashboard'
 import Subjects from '@/routes/Subjects'
 import SubjectView from '@/routes/SubjectView'
@@ -47,6 +48,7 @@ export default function App() {
             <NavLink key={item.to} to={item.to} end={item.end}>{item.label}</NavLink>
           ))}
         </nav>
+        <UpdateButton />
       </header>
 
       <main className="content">
