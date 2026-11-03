@@ -14,6 +14,16 @@
  *   - 1 Timothy 6:10: "the love of money", not "money", is a root of evil.
  *   - "Fighting has been ordained for you" is Qur'an 2:216, not 49:9.
  *   - Greater jihad is the inner struggle to live as a good Muslim, not holy war.
+ * Found on a second, page-by-page read (3 Nov 2026):
+ *   - Adam: the organiser says his actions "brought sin into the world". Islam has
+ *     no original sin — Adam and Hawwa repented and were forgiven (Qur'an 2:37).
+ *   - Sunni key word: Muhammad did not name Abu Bakr; the community chose him.
+ *   - Same-sex marriage: legal in England and Wales from 2014 (Act passed 2013),
+ *     Scotland late 2014, Northern Ireland 2020. 2015 was the Republic of Ireland.
+ *   - Gender pay gap: it is a gap in average pay, not lower pay for the same job.
+ *   - Crucifixion: Jesus promised paradise to ONE of the two criminals (Luke 23:43).
+ *   - Just war: last resort and "good outweighs the harm" are jus ad bellum
+ *     (going to war), not jus in bello (conduct in war).
  *
  * Quotations are kept short. Bible quotations follow the NIV; Qur'an quotations
  * follow the wording on the school's organiser where it was right.
@@ -223,6 +233,7 @@ export default [
               { title: 'Ascension', text: 'Forty days after the resurrection Jesus returned to the Father: "he left them and was taken up into heaven" (Luke 24:51). Before leaving he gave the Great Commission — go and make disciples.' },
             ],
           },
+          { type: 'callout', variant: 'warning', title: 'Organiser slip — one criminal, not both', text: 'Two criminals were crucified with Jesus. One mocked him; the other asked to be remembered, and Jesus told that one, "Today you will be with me in paradise" (Luke 23:43). The sheet says he told "the men", and later "the thieves" — it was only one.' },
           { type: 'callout', variant: 'exam', title: 'Why the resurrection matters', text: '"If Christ has not been raised, our preaching is useless and so is your faith" (1 Corinthians 15:14). It shows Jesus defeated death and promises believers eternal life.' },
         ],
       },
@@ -468,6 +479,7 @@ export default [
               ['Muhammad', 'The final prophet, the "Seal of the Prophets" (Qur\'an 33:40). Received the Qur\'an through Jibril. The perfect example of how to live.'],
             ],
           },
+          { type: 'callout', variant: 'warning', title: 'Organiser slip — no original sin in Islam', text: 'The school sheet says Adam and Hawwa\'s actions "brought sin into the world". That is the Christian idea of original sin. In Islam they repented and God forgave them (Qur\'an 2:37), so every person is born sinless and answers only for their own deeds. Mixing these up is a classic exam mistake.' },
           {
             type: 'steps',
             title: 'Muhammad\'s life',
@@ -506,6 +518,7 @@ export default [
         points: ['3.1.2.2c'],
         blocks: [
           { type: 'prose', text: 'When Muhammad died, Sunni Muslims accepted Abu Bakr, his father-in-law and close friend, as the first caliph (leader), followed by Umar, Uthman and then Ali.' },
+          { type: 'callout', variant: 'warning', title: 'Organiser slip — who chose Abu Bakr', text: 'The key-words box says Sunnis believe "Muhammad chose Abu Bakr". Sunnis believe Muhammad named no successor and the community chose Abu Bakr. It is the Shi\'a who believe Muhammad chose someone — Ali.' },
           { type: 'prose', text: 'Shi\'a Muslims believe Muhammad chose Ali — his cousin and son-in-law — to succeed him, and that leadership should stay in the Prophet\'s family. They follow twelve imams: Ali and his descendants through Fatimah, Muhammad\'s daughter. Imams are chosen by God, are infallible (cannot make mistakes) and guard the true meaning of the Qur\'an. Most Shi\'a believe the twelfth imam is hidden and will return.' },
           { type: 'callout', variant: 'warning', title: 'The knowledge organiser gets this backwards', text: 'The school sheet says the imams had no family connection to Muhammad. They did — they were his descendants through Ali and Fatimah, and that family link is exactly why Shi\'a Muslims follow them. Write it this way in the exam.' },
         ],
@@ -551,6 +564,7 @@ export default [
         points: ['3.2.1.1a'],
         blocks: [
           { type: 'prose', text: 'British attitudes have changed a lot: contraception and legal abortion reduced the risk of pregnancy, and same-sex marriage became legal in England and Wales in 2014. The age of consent is 16.' },
+          { type: 'callout', variant: 'warning', title: 'Organiser slip — the dates', text: 'The sheet gives 2013 on one page and "2014, and Ireland in 2015" on another. The law was passed in 2013 and the first weddings in England and Wales were in March 2014; Scotland followed in December 2014 and Northern Ireland in 2020. 2015 was the Republic of Ireland, which is not in the UK. "Legal in England and Wales in 2014" is safe.' },
           {
             type: 'table',
             headers: ['Christianity', 'Islam'],
@@ -752,6 +766,7 @@ export default [
         points: ['3.2.1.2d', '3.2.1.2e', '3.2.1.2f'],
         blocks: [
           { type: 'prose', text: 'Gender equality means men and women have the same rights and opportunities. Gender prejudice is unfairly judging someone because of their gender; discrimination is acting on that prejudice. The Sex Discrimination Act 1975 made discrimination illegal, but a gender pay gap remains.' },
+          { type: 'callout', variant: 'warning', title: 'Organiser slip — the pay gap', text: 'The sheet says women earn less "for the same jobs". Paying a woman less for the same job has been illegal since the Equal Pay Act 1970. The gender pay gap is the difference in average pay — partly because more men hold senior and higher-paid roles.' },
           {
             type: 'table',
             headers: ['Christianity', 'Islam'],
@@ -866,6 +881,7 @@ export default [
             ],
           },
           { type: 'callout', variant: 'tip', title: 'Memory hook', text: 'The first three are Aquinas\'s: Cause, Authority, Intention. Then Last resort, Success, Proportion.' },
+          { type: 'callout', variant: 'warning', title: 'Organiser slip — jus in bello', text: 'The sheet files last resort and "the good must outweigh the evil" under jus in bello. Both are about whether to go to war (jus ad bellum). Jus in bello is how the war is fought: proportionate force and no targeting of civilians.' },
         ],
       },
       {
