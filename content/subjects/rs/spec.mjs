@@ -51,7 +51,7 @@ export default {
   examNotes: [
     'One paper, 1h45, the whole qualification. Sat in Year 10 — summer 2027.',
     'Section A is beliefs and teachings only. Practices are NOT on the short course.',
-    'Question structure per topic: 1 mark, 2 marks, 4 marks, 5 marks, then a 12-mark evaluation. The 12-marker is where the grade is won.',
+    'Question structure per topic (from summer 2026): 1 mark, 1 mark, 4 marks, 6 marks, then a 12-mark evaluation. The 6-marker needs two beliefs plus a named source of authority applied to the question. The 12-marker is where the grade is won.',
     'The 12-mark evaluation needs arguments for, arguments against, reference to religious teaching, and a justified conclusion. Six marks of the paper are for SPaG — write in full, accurate sentences.',
     'Learn short scriptural quotations for both religions. A named source of authority lifts an answer out of the middle band.',
   ],

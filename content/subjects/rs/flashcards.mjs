@@ -1,10 +1,11 @@
 /**
  * AQA 8061D flashcards.
  *
- * Built from the school's RS knowledge organisers (scanned 19 Oct 2026), corrected
- * where the organiser was wrong — see the header of notes.mjs for the list.
+ * Built from the school's RS knowledge organisers (scanned 19 Oct 2026). Where the
+ * organiser differs from other sources, cards follow the other sources — see the
+ * header of notes.mjs for the list.
  * Backs are the answer that earns the mark. Quotation cards give the reference on
- * the back: a named source is what lifts a 5-mark answer.
+ * the back: a named source is what earns marks on a 6-mark answer.
  */
 export default [
   // ===================== 3.1.1.1 Christianity: key beliefs ===================

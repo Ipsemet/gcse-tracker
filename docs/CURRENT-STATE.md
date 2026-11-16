@@ -75,9 +75,9 @@ Relationships and families, Peace and conflict), checked against the AQA spec:
 - **61 questions, 267 marks** in AQA's 1 / 2 / 4 / 5 / 12 pattern, every spec point covered.
   Includes the organiser's own 20 practice questions (tagged `sourceRef`).
 
-The organiser has errors; the content follows the facts and flags each one in a callout —
-list at the top of `content/subjects/rs/notes.mjs`. The big one: it says the Shi'a imams had no
-family link to Muhammad. They were his descendants.
+Where the organiser differs from other sources, the content follows the other sources and shows
+both versions in a "Sources differ" callout — list at the top of `content/subjects/rs/notes.mjs`.
+Questions follow AQA's pattern from summer 2026: 1, 1, 4, 6 and 12 marks.
 
 Next: drill Harry's weak topics once he has used it, and add a second 12-marker per topic.
 

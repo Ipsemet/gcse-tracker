@@ -57,7 +57,7 @@ One paper, **1h45, 96 marks + 6 SPaG**, sat in **Year 10, summer 2027**. Linear.
 - **Section B — both themes are compulsory:**
   Theme A Relationships and families, Theme B Religion, peace and conflict
 
-Question structure per topic: 1, 2, 4, 5 and 12 marks. The 12-mark evaluation carries the grade.
+Question structure per topic: 1, 1, 4, 6 and 12 marks (AQA changed it from 1, 2, 4, 5, 12 for exams from summer 2026). The 12-mark evaluation carries the grade.
 
 **Open question:** the Year 11 RS scheme of work covers the death penalty, abortion and
 euthanasia — none of which are on the 8061 short course. Almost certainly non-examined Year 11 RS

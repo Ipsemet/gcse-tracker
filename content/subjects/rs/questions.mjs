@@ -1,17 +1,17 @@
 /**
  * AQA 8061D question bank.
  *
- * Follows AQA's question pattern for every topic: 1-mark multiple choice, 2-mark
- * "Give two", 4-mark "Explain two ways / two contrasting / two similar", 5-mark
- * "Explain two … Refer to sacred writings", 12-mark "Evaluate this statement".
- * Mark schemes follow AQA's structure; the 12-mark levels paraphrase AQA's
- * published level descriptors. SPaG (3 marks on the 12-markers in the real
+ * Follows AQA's question pattern from summer 2026 for every topic: 1-mark multiple
+ * choice, 1-mark "Give one", 4-mark "Explain two ways / two contrasting / two
+ * similar", 6-mark "Explain two … Refer to sacred writings", 12-mark "Evaluate
+ * this statement" (AQA 8061 scheme of assessment and 2026 sample papers).
+ * Mark schemes follow AQA's 2026 sample mark schemes; the 12-mark levels
+ * paraphrase AQA's level descriptors. SPaG (3 marks on the 12-markers in the real
  * paper) is not counted here.
  *
  * Questions marked sourceRef 'School knowledge organiser' are the 20 practice
- * questions printed at the end of Harry's organisers (scanned 19 Oct 2026). The
- * organiser gives the sacred-writings question 6 marks; AQA gives it 5, so 5 is
- * used here. All others are authored in AQA style, not reproduced from AQA papers.
+ * questions printed at the end of Harry's organisers (scanned 19 Oct 2026). All
+ * others are authored in AQA style, not reproduced from AQA papers.
  */
 
 const SCHOOL = 'School knowledge organiser practice questions'
@@ -26,10 +26,14 @@ const four = (first, firstDev, second, secondDev) => [
   { text: `Developed: ${secondDev}`, marks: 1 },
 ]
 
-/** 5-mark — as `four`, plus 1 for a relevant sacred writing or source of authority. */
-const five = (first, firstDev, second, secondDev, source) => [
+/**
+ * 6-mark — as `four`, plus up to 2 for a source of authority: 1 for naming a
+ * relevant one, 1 for applying it to the question (AQA 2026 mark scheme).
+ */
+const six = (first, firstDev, second, secondDev, source) => [
   ...four(first, firstDev, second, secondDev),
-  { text: `Relevant sacred writing or source of authority, e.g. ${source}`, marks: 1 },
+  { text: `Names a relevant sacred writing or source of authority, e.g. ${source}`, marks: 1 },
+  { text: 'Applies the source — says what it shows about the question', marks: 1 },
 ]
 
 /** 12-mark evaluation — AQA's four levels. */
@@ -40,7 +44,7 @@ const twelve = (forArgs, againstArgs) => [
     indicativeContent: [...forArgs.map((a) => `For: ${a}`), ...againstArgs.map((a) => `Against: ${a}`), 'A conclusion that weighs the two sides and says which is stronger, and why'],
   },
   { level: 3, marksFrom: 7, marksTo: 9, descriptor: 'Reasoned consideration of different points of view, with logical chains of reasoning drawing on religious teaching. Conclusion is missing or not fully justified.' },
-  { level: 2, marksFrom: 4, marksTo: 6, descriptor: 'Reasoned consideration of ONE point of view, OR different points of view each supported by a simple reason.' },
+  { level: 2, marksFrom: 4, marksTo: 6, descriptor: 'Reasoned consideration of ONE point of view, OR different points of view each supported by a reason. No higher than Level 2 without reference to religion.' },
   { level: 1, marksFrom: 1, marksTo: 3, descriptor: 'A point of view with a reason stated in support.' },
 ]
 
@@ -71,11 +75,10 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0003', points: ['3.1.1.1a'], type: 'short', marks: 2, difficulty: 2, commandWord: 'Give',
-    stem: 'Give two Christian responses to the problem of evil and suffering.',
+    id: 'rs-q-0003', points: ['3.1.1.1a'], type: 'short', marks: 1, difficulty: 2, commandWord: 'Give',
+    stem: 'Give one Christian response to the problem of evil and suffering.',
     markScheme: [
-      { text: 'Free will — humans cause suffering by misusing the freedom God gave them', marks: 1, alternatives: ['free will', 'free will defence'] },
-      { text: 'Suffering helps people grow — vale of soul-making', marks: 1, alternatives: ['soul-making', 'original sin', 'suffering is a test', 'Jesus also suffered', 'pray', 'help those who suffer'] },
+      { text: 'Any one, e.g. Free will — humans cause suffering by misusing the freedom God gave them; or Suffering helps people grow — vale of soul-making', marks: 1, alternatives: ['free will', 'free will defence', 'soul-making', 'original sin', 'suffering is a test', 'Jesus also suffered', 'pray', 'help those who suffer'] },
     ],
     source: 'authored',
   },
@@ -93,9 +96,9 @@ export default [
     source: 'authored', sourceRef: SCHOOL,
   },
   {
-    id: 'rs-q-0005', points: ['3.1.1.1c'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0005', points: ['3.1.1.1c'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two Christian beliefs about the creation of the world. Refer to sacred writings or another source of Christian belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'God created the world out of nothing (ex nihilo) and it is good',
       'Genesis 1 shows God creating by his word, and seeing that it was good — so Christians should care for creation',
       'all three persons of the Trinity were involved in creation',
@@ -127,9 +130,9 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0008', points: ['3.1.1.1d'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0008', points: ['3.1.1.1d'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two Christian beliefs about judgement. Refer to sacred writings or another source of Christian belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'Jesus will return to judge everyone',
       'the Apostles\' Creed says he "will come to judge the living and the dead" — everyone is accountable',
       'people will be judged on how they treated those in need',
@@ -174,11 +177,10 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0013', points: ['3.1.1.2d'], type: 'short', marks: 2, difficulty: 2, commandWord: 'Give',
-    stem: 'Give two ways Christians believe salvation can be achieved.',
+    id: 'rs-q-0013', points: ['3.1.1.2d'], type: 'short', marks: 1, difficulty: 2, commandWord: 'Give',
+    stem: 'Give one way Christians believe salvation can be achieved.',
     markScheme: [
-      { text: 'Through grace — a free gift from God through faith in Jesus', marks: 1, alternatives: ['grace', 'faith in Jesus', 'faith'] },
-      { text: 'Through law / good works — obeying God\'s commandments', marks: 1, alternatives: ['good works', 'law', 'obeying God', 'the Holy Spirit', 'Spirit'] },
+      { text: 'Any one, e.g. Through grace — a free gift from God through faith in Jesus; or Through law / good works — obeying God\'s commandments', marks: 1, alternatives: ['grace', 'faith in Jesus', 'faith', 'good works', 'law', 'obeying God', 'the Holy Spirit', 'Spirit'] },
     ],
     source: 'authored',
   },
@@ -194,9 +196,9 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0015', points: ['3.1.1.2b'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0015', points: ['3.1.1.2b'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two reasons why the resurrection is important to Christians. Refer to sacred writings or another source of Christian belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'it shows Jesus defeated death',
       'so it proves he was the Son of God and his sacrifice worked',
       'it gives Christians hope of eternal life',
@@ -240,11 +242,10 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0019', points: ['3.1.2.1d'], type: 'short', marks: 2, difficulty: 1, commandWord: 'Give',
-    stem: 'Give two roles of angels in Islam.',
+    id: 'rs-q-0019', points: ['3.1.2.1d'], type: 'short', marks: 1, difficulty: 1, commandWord: 'Give',
+    stem: 'Give one role of angels in Islam.',
     markScheme: [
-      { text: 'Bring God\'s messages to the prophets', marks: 1, alternatives: ['messengers', 'reveal the Qur\'an', 'bring messages'] },
-      { text: 'Watch over people and record their deeds', marks: 1, alternatives: ['record deeds', 'guardian', 'watch over', 'take souls at death', 'blow the trumpet', 'send rain', 'question the dead'] },
+      { text: 'Any one, e.g. Bring God\'s messages to the prophets; or Watch over people and record their deeds', marks: 1, alternatives: ['messengers', 'reveal the Qur\'an', 'bring messages', 'record deeds', 'guardian', 'watch over', 'take souls at death', 'blow the trumpet', 'send rain', 'question the dead'] },
     ],
     source: 'authored',
   },
@@ -261,9 +262,9 @@ export default [
     source: 'authored', sourceRef: SCHOOL,
   },
   {
-    id: 'rs-q-0021', points: ['3.1.2.1f'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0021', points: ['3.1.2.1f'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two Muslim beliefs about life after death (Akhirah). Refer to sacred writings or another source of Muslim belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'after death the soul waits in barzakh until the Day of Judgement',
       'two angels question the dead about their faith, and no one can return to put things right',
       'on the Day of Judgement everyone will be resurrected and judged',
@@ -345,9 +346,9 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0029', points: ['3.1.2.2b'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0029', points: ['3.1.2.2b'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two reasons why the Qur\'an is important to Muslims. Refer to sacred writings or another source of Muslim belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'it is the word of God, revealed to Muhammad through Jibril',
       'it is final and unchanged, unlike earlier books, so it has the highest authority',
       'it guides how Muslims live',
@@ -386,11 +387,10 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0033', points: ['3.2.1.1d'], type: 'short', marks: 2, difficulty: 1, commandWord: 'Give',
-    stem: 'Give two religious purposes of marriage.',
+    id: 'rs-q-0033', points: ['3.2.1.1d'], type: 'short', marks: 1, difficulty: 1, commandWord: 'Give',
+    stem: 'Give one religious purpose of marriage.',
     markScheme: [
-      { text: 'To have children (procreation)', marks: 1, alternatives: ['children', 'procreation', 'start a family'] },
-      { text: 'Lifelong companionship and support', marks: 1, alternatives: ['companionship', 'love', 'support', 'sexual relationship', 'bring children up in the faith', 'stability'] },
+      { text: 'Any one, e.g. To have children (procreation); or Lifelong companionship and support', marks: 1, alternatives: ['children', 'procreation', 'start a family', 'companionship', 'love', 'support', 'sexual relationship', 'bring children up in the faith', 'stability'] },
     ],
     source: 'authored',
   },
@@ -418,9 +418,9 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0036', points: ['3.2.1.1f'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0036', points: ['3.2.1.1f'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two religious beliefs about divorce. Refer to sacred writings or another source of religious belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'the Catholic Church does not allow divorce',
       'marriage is a sacrament made before God for life; only an annulment can end it',
       'Islam allows divorce as a last resort',
@@ -471,9 +471,9 @@ export default [
     source: 'authored', sourceRef: SCHOOL,
   },
   {
-    id: 'rs-q-0041', points: ['3.2.1.2b'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0041', points: ['3.2.1.2b'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two religious beliefs about the purpose of families. Refer to sacred writings or another source of religious belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'procreation — families are where children are born',
       'God commanded "be fruitful and increase in number" (Genesis 1:28), so having children is part of God\'s plan',
       'educating children in the faith',
@@ -539,11 +539,10 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0047', points: ['3.2.2.1e'], type: 'short', variant: 'christianity', marks: 2, difficulty: 2, commandWord: 'Give',
-    stem: 'Give two conditions of a just war.',
+    id: 'rs-q-0047', points: ['3.2.2.1e'], type: 'short', variant: 'christianity', marks: 1, difficulty: 2, commandWord: 'Give',
+    stem: 'Give one condition of a just war.',
     markScheme: [
-      { text: 'Just cause', marks: 1, alternatives: ['just cause', 'proper authority', 'legitimate authority'] },
-      { text: 'Last resort', marks: 1, alternatives: ['last resort', 'right intention', 'proportionality', 'proportion', 'chance of success', 'civilians not targeted'] },
+      { text: 'Any one, e.g. Just cause; or Last resort', marks: 1, alternatives: ['just cause', 'proper authority', 'legitimate authority', 'last resort', 'right intention', 'proportionality', 'proportion', 'chance of success', 'civilians not targeted'] },
     ],
     source: 'authored',
   },
@@ -571,9 +570,9 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0050', points: ['3.2.2.1e'], type: 'extended', variant: 'christianity', marks: 5, difficulty: 3, commandWord: 'Explain',
+    id: 'rs-q-0050', points: ['3.2.2.1e'], type: 'extended', variant: 'christianity', marks: 6, difficulty: 3, commandWord: 'Explain',
     stem: 'Explain two conditions of the just war theory. Refer to sacred writings or another source of religious belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'there must be a just cause',
       'e.g. defending a country from attack, as Britain did in the Second World War',
       'it must be proportional',
@@ -625,9 +624,9 @@ export default [
     source: 'authored',
   },
   {
-    id: 'rs-q-0055', points: ['3.2.2.2e'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0055', points: ['3.2.2.2e'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two reasons why religious people help victims of war. Refer to sacred writings or another source of religious belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'Christians are taught to love their neighbour',
       'the Parable of the Good Samaritan shows helping anyone in need, whoever they are; e.g. Christian Aid helps refugees',
       'Muslims believe saving life is a great duty',
@@ -660,9 +659,9 @@ export default [
 
   // ============================ Gap fillers ==================================
   {
-    id: 'rs-q-0058', points: ['3.1.2.1b'], type: 'extended', marks: 5, difficulty: 2, commandWord: 'Explain',
+    id: 'rs-q-0058', points: ['3.1.2.1b'], type: 'extended', marks: 6, difficulty: 2, commandWord: 'Explain',
     stem: 'Explain two ways in which belief in Tawhid influences Muslims today. Refer to sacred writings or another source of Muslim belief and teaching in your answer.',
-    markScheme: five(
+    markScheme: six(
       'Muslims worship only God and avoid shirk',
       'nothing may be treated as equal to God, so there are no pictures or statues of God or the Prophet in a mosque',
       'Muslims declare their faith in one God every day',
