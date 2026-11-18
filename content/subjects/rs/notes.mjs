@@ -5,9 +5,9 @@
  * beliefs, Relationships and families, Peace and conflict — scanned 19 Oct 2026),
  * re-cut onto the AQA spec spine and checked against the specification.
  *
- * Where the organiser differs from other sources, the notes follow the other
- * sources and the AQA spec, and a `warning` callout titled "Sources differ" shows
- * both versions and suggests Harry checks with his teacher. The points:
+ * Where the organiser and other sources disagree, the notes follow the other
+ * sources and the AQA spec, and a `warning` callout titled "To clarify" shows
+ * both versions. These have gone to the teacher for clarification:
  *   - Shi'a imams: the organiser says they had no family connection to Muhammad.
  *     They were his descendants through Ali and Fatimah — that is the whole point.
  *   - Cross of Nails: Coventry Cathedral, not Canterbury.
@@ -234,7 +234,7 @@ export default [
               { title: 'Ascension', text: 'Forty days after the resurrection Jesus returned to the Father: "he left them and was taken up into heaven" (Luke 24:51). Before leaving he gave the Great Commission — go and make disciples.' },
             ],
           },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — one criminal or both?', text: 'Your knowledge organiser says Jesus told "the men" crucified with him they would join him in paradise. Luke 23:39–43 describes two criminals: one mocked Jesus, and Jesus told the other, "Today you will be with me in paradise." Check with your teacher which to use.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — one criminal or both?', text: 'Your knowledge organiser says Jesus told "the men" crucified with him they would join him in paradise. Luke 23:39–43 describes two criminals: one mocked Jesus, and Jesus told the other, "Today you will be with me in paradise." We have asked your teacher to clarify which to use.' },
           { type: 'callout', variant: 'exam', title: 'Why the resurrection matters', text: '"If Christ has not been raised, our preaching is useless and so is your faith" (1 Corinthians 15:14). It shows Jesus defeated death and promises believers eternal life.' },
         ],
       },
@@ -480,7 +480,7 @@ export default [
               ['Muhammad', 'The final prophet, the "Seal of the Prophets" (Qur\'an 33:40). Received the Qur\'an through Jibril. The perfect example of how to live.'],
             ],
           },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — sin and Adam in Islam', text: 'Your knowledge organiser says Adam and Hawwa\'s actions "brought sin into the world". Other sources say Islam has no idea of original sin: Adam and Hawwa repented and God forgave them (Qur\'an 2:37), so every person is born sinless and answers for their own deeds. Original sin is the Christian belief. Check with your teacher which to use.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — sin and Adam in Islam', text: 'Your knowledge organiser says Adam and Hawwa\'s actions "brought sin into the world". Other sources say Islam has no idea of original sin: Adam and Hawwa repented and God forgave them (Qur\'an 2:37), so every person is born sinless and answers for their own deeds. Original sin is the Christian belief. We have asked your teacher to clarify which to use.' },
           {
             type: 'steps',
             title: 'Muhammad\'s life',
@@ -519,9 +519,9 @@ export default [
         points: ['3.1.2.2c'],
         blocks: [
           { type: 'prose', text: 'When Muhammad died, Sunni Muslims accepted Abu Bakr, his father-in-law and close friend, as the first caliph (leader), followed by Umar, Uthman and then Ali.' },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — who chose Abu Bakr?', text: 'Your knowledge organiser\'s key-words box says Sunnis believe "Muhammad chose Abu Bakr"; section 1.9 says the community chose him. Other sources agree with 1.9: Sunnis believe Muhammad named no successor and the community chose Abu Bakr. It is Shi\'a Muslims who believe Muhammad chose someone — Ali.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — who chose Abu Bakr?', text: 'Your knowledge organiser\'s key-words box says Sunnis believe "Muhammad chose Abu Bakr"; section 1.9 says the community chose him. Other sources agree with 1.9: Sunnis believe Muhammad named no successor and the community chose Abu Bakr. It is Shi\'a Muslims who believe Muhammad chose someone — Ali. We have asked your teacher to clarify which to use.' },
           { type: 'prose', text: 'Shi\'a Muslims believe Muhammad chose Ali — his cousin and son-in-law — to succeed him, and that leadership should stay in the Prophet\'s family. They follow twelve imams: Ali and his descendants through Fatimah, Muhammad\'s daughter. Imams are chosen by God, are infallible (cannot make mistakes) and guard the true meaning of the Qur\'an. Most Shi\'a believe the twelfth imam is hidden and will return.' },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — the imams and Muhammad\'s family', text: 'Your knowledge organiser says the imams had no family connection to Muhammad. Other sources say they were his descendants through Ali and Fatimah, and that the family link is why Shi\'a Muslims follow them. Check with your teacher which to use.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — the imams and Muhammad\'s family', text: 'Your knowledge organiser says the imams had no family connection to Muhammad. Other sources say they were his descendants through Ali and Fatimah, and that the family link is why Shi\'a Muslims follow them. We have asked your teacher to clarify which to use.' },
         ],
       },
     ],
@@ -565,7 +565,7 @@ export default [
         points: ['3.2.1.1a'],
         blocks: [
           { type: 'prose', text: 'British attitudes have changed a lot: contraception and legal abortion reduced the risk of pregnancy, and same-sex marriage became legal in England and Wales in 2014. The age of consent is 16.' },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — the dates', text: 'Your knowledge organiser gives 2013 on one page and "2014, and Ireland in 2015" on another. Other sources say the law was passed in 2013, the first weddings in England and Wales were in March 2014, Scotland followed in December 2014 and Northern Ireland in 2020; 2015 was the Republic of Ireland. "Legal in England and Wales in 2014" fits both.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — the dates', text: 'Your knowledge organiser gives 2013 on one page and "2014, and Ireland in 2015" on another. Other sources say the law was passed in 2013, the first weddings in England and Wales were in March 2014, Scotland followed in December 2014 and Northern Ireland in 2020; 2015 was the Republic of Ireland. "Legal in England and Wales in 2014" fits both. We have asked your teacher to clarify which to use.' },
           {
             type: 'table',
             headers: ['Christianity', 'Islam'],
@@ -767,7 +767,7 @@ export default [
         points: ['3.2.1.2d', '3.2.1.2e', '3.2.1.2f'],
         blocks: [
           { type: 'prose', text: 'Gender equality means men and women have the same rights and opportunities. Gender prejudice is unfairly judging someone because of their gender; discrimination is acting on that prejudice. The Sex Discrimination Act 1975 made discrimination illegal, but a gender pay gap remains.' },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — the pay gap', text: 'Your knowledge organiser says women earn less "for the same jobs". The ONS describes the gender pay gap as a difference in average pay across the workforce, not pay for the same job; paying a woman less for the same job has been unlawful since the Equal Pay Act 1970.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — the pay gap', text: 'Your knowledge organiser says women earn less "for the same jobs". The ONS describes the gender pay gap as a difference in average pay across the workforce, not pay for the same job; paying a woman less for the same job has been unlawful since the Equal Pay Act 1970. We have asked your teacher to clarify which to use.' },
           {
             type: 'table',
             headers: ['Christianity', 'Islam'],
@@ -827,7 +827,7 @@ export default [
               ['Reconciliation — restoring friendly relations', 'The Community of the Cross of Nails, based at Coventry Cathedral, works for reconciliation worldwide.', '"When aggressive people address them, they reply with words of peace" (Qur\'an 25:63).'],
             ],
           },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — Coventry or Canterbury?', text: 'Your knowledge organiser says Canterbury Cathedral. Other sources say the Cross of Nails comes from Coventry Cathedral, made from roof nails after it was bombed in 1940, and the Community is run from Coventry.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — Coventry or Canterbury?', text: 'Your knowledge organiser says Canterbury Cathedral. Other sources say the Cross of Nails comes from Coventry Cathedral, made from roof nails after it was bombed in 1940, and the Community is run from Coventry. We have asked your teacher to clarify which to use.' },
         ],
       },
       {
@@ -860,7 +860,7 @@ export default [
               ['Retaliation — hitting back after being harmed', '"Eye for eye" (Exodus 21:24), but Jesus replaced it: "turn the other cheek" (Matthew 5:38-39).', '"Fair retribution saves life for you" (Qur\'an 2:179), but forgiveness is the better response.'],
             ],
           },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — the wording', text: 'Your knowledge organiser quotes "money is the root of all evil". Bible translations of 1 Timothy 6:10 say "the love of money" is a root of all kinds of evil — which is the point: it is about greed, not money itself.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — the wording', text: 'Your knowledge organiser quotes "money is the root of all evil". Bible translations of 1 Timothy 6:10 say "the love of money" is a root of all kinds of evil — which is the point: it is about greed, not money itself. We have asked your teacher to clarify which to use.' },
         ],
       },
       {
@@ -882,7 +882,7 @@ export default [
             ],
           },
           { type: 'callout', variant: 'tip', title: 'Memory hook', text: 'The first three are Aquinas\'s: Cause, Authority, Intention. Then Last resort, Success, Proportion.' },
-          { type: 'callout', variant: 'warning', title: 'Sources differ — jus ad bellum or jus in bello?', text: 'Your knowledge organiser lists last resort and "the good must outweigh the evil" under jus in bello. Other sources put both under jus ad bellum (whether to go to war) and keep jus in bello for how a war is fought: proportionate force and no targeting of civilians. Check with your teacher which to use.' },
+          { type: 'callout', variant: 'warning', title: 'To clarify — jus ad bellum or jus in bello?', text: 'Your knowledge organiser lists last resort and "the good must outweigh the evil" under jus in bello. Other sources put both under jus ad bellum (whether to go to war) and keep jus in bello for how a war is fought: proportionate force and no targeting of civilians. We have asked your teacher to clarify which to use.' },
         ],
       },
       {
